@@ -1,0 +1,19 @@
+h1{
+    color: white;
+    font-family: sans-serif;
+    height: auto;
+    width: auto;
+}
+h2{
+    color: white;
+    font-family: sans-serif;
+    height: auto;
+    width: auto;
+}
+button{
+    height: 50px;
+    width: 50px;
+    border-radius: 15%;
+    background-color: red;
+    color: white;
+}
