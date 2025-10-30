@@ -11,9 +11,10 @@ h2{
     width: auto;
 }
 button{
-    height: 100px;
-    width: 80px;
-    border-radius: 15%;
+    font-size: 130px;
+    height: 200px;
+    width: 1250px;
+    border-radius: 50px;
     background-color: red;
     color: white;
 }
