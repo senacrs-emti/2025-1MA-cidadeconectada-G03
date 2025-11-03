@@ -18,3 +18,52 @@ button{
     background-color: red;
     color: white;
 }
+ 
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  font-family: sans-serif;
+  background-color: #dff7fb;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.16), transparent 30%),
+    radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.08), transparent 25%),
+    linear-gradient(
+      180deg,
+      rgba(249,255,255,0.95) 0%,
+      rgba(225,249,254,0.85) 18%,
+      rgba(200,236,251,0.9) 35%,
+      rgba(160,216,245,0.95) 60%,
+      rgba(120,188,238,1) 100%
+    );
+  background-blend-mode: normal, screen, normal;
+  filter: saturate(1.05);
+}
+
+.glow {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 60vmin;
+  height: 60vmin;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.95),
+    rgba(220, 250, 255, 0.65) 30%,
+    transparent 55%
+  );
+  mix-blend-mode: screen;
+  filter: blur(40px) saturate(1.1);
+}
