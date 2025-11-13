@@ -103,6 +103,7 @@ body::before {
   grid-template-rows: repeat(2, 350px); 
   gap: 60px; 
   width: 1100px;
+  height: 700px;
   max-width: 1900px; 
   margin: 80px auto;
   justify-items: center;
@@ -123,15 +124,52 @@ body::before {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.caixa img,
-.caixa video {
+.caixa {
   max-width: 100%;
   max-height: 100%;
   border-radius: 15px;
   object-fit: cover;
+  
+}
+
+.caixa2 {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(1, 1, 1, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  object-fit: cover;
+  border-radius: 20px;
+  display: flex;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;
+  bottom: 782px;
+  left: 100px
+}
+
+.caixa3 {
+   width: 100px;
+  height: 100px;
+  background-color: rgba(1, 1, 1, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  object-fit: cover;
+  border-radius: 20px;
+  display: flex;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;
+  bottom: 1110px;
+  right: 100px;
 }
 
 @media (max-width: 768px) {
+  .conteudo {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-height: 600px) {
   .conteudo {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
