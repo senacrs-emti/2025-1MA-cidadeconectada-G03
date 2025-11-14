@@ -129,7 +129,8 @@ body::before {
   max-height: 100%;
   border-radius: 15px;
   object-fit: cover;
-  
+  position: relative;
+  top: 3px;
 }
 
 .caixa2 {
@@ -143,11 +144,41 @@ body::before {
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   position: relative;
-  bottom: 782px;
-  left: 100px
+  bottom: 745px;
+  left: 105px
 }
 
 .caixa3 {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(1, 1, 1, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  object-fit: cover;
+  border-radius: 20px;
+  display: flex;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;
+  bottom: 1073px;
+  right: 95px;
+}
+
+.caixa4 {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(1, 1, 1, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  object-fit: cover;
+  border-radius: 20px;
+  display: flex;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;
+  bottom: 990px;
+  right: 95px;
+}
+
+.caixa5 {
    width: 100px;
   height: 100px;
   background-color: rgba(1, 1, 1, 0.08);
@@ -158,8 +189,8 @@ body::before {
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   position: relative;
-  bottom: 1110px;
-  right: 100px;
+  bottom: 1318px;
+  left: 105px;
 }
 
 @media (max-width: 768px) {
