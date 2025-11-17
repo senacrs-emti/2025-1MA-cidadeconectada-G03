@@ -4,7 +4,7 @@
 
 h1 {
   font-family: sans-serif;
-  font-size: 50px;
+  font-size: 80px;
   background: linear-gradient(45deg, #112B3C, #4A90E2);
   padding: 5px;
   -webkit-background-clip: text;
@@ -13,11 +13,12 @@ h1 {
   color: transparent;
   display: block;
   text-align: center;
+
 }
 
 h3 {
   font-family: sans-serif;
-  font-size: 28px;
+  font-size: 30px;
   background: linear-gradient(45deg, #001F3F, #003B73);
   padding: 5px;
   -webkit-background-clip: text;
@@ -35,7 +36,7 @@ button {
   border-radius: 50px;
   background-color: red;
   color: white;
-  margin-top: 10px;
+  margin-top: 200px;
   cursor: pointer;
   transition: transform 0.5s ease, box-shadow 0.15s ease;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -131,6 +132,34 @@ body::before {
   object-fit: cover;
   position: relative;
   top: 3px;
+}
+
+.caixa h1#criancas {
+  font-size: 35px;
+  position: relative;
+  bottom: 140px;
+  font-family:monospace;
+}
+
+.caixa h1#adolescentes {
+  font-size: 35px;
+  position: relative;
+  bottom: 140px;
+  font-family:monospace;
+}
+
+.caixa h1#adultos {
+  font-size: 35px;
+  position: relative;
+  bottom: 140px;
+  font-family:monospace;
+}
+
+.caixa h1#idosos {
+  font-size: 35px;
+  position: relative;
+  bottom: 140px;
+   font-family:monospace;
 }
 
 .caixa2 {
