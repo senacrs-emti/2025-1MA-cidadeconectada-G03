@@ -15,7 +15,7 @@ button {
   background-color: red;
   color: white;
   margin-top: 50px;
-  margin-left: 62px;
+  margin-left: 64px;
   cursor: pointer;
   transition: transform 0.5s ease, box-shadow 0.15s ease;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
