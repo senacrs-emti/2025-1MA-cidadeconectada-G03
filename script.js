@@ -63,3 +63,24 @@ button.addEventListener("click", function () {
         }
     );
 });
+
+document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+
+// Pega todos os links dos botões
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // Fecha todas as seções
+    document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+
+    // Mostra a clicada
+    const id = this.getAttribute('href').substring(1);
+    const alvo = document.getElementById(id);
+
+    if (alvo) {
+      alvo.style.display = 'block';
+      window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
+    }
+  });
+});
