@@ -84,6 +84,12 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
       alvo.style.display = 'block';
       window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
     }
+
+    // se for login, foca o campo de e-mail
+    if (id === 'login') {
+      const input = document.querySelector('#loginForm input[name="email"]');
+      if (input) input.focus();
+    }
   });
 });
 
@@ -339,7 +345,7 @@ function setupSidebar() {
           window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
           // if target is login, focus first input
           if (id === 'login') {
-            const input = document.querySelector('#loginForm input[name="user"]');
+            const input = document.querySelector('#loginForm input[name="email"]');
             if (input) input.focus();
           }
         }
@@ -353,17 +359,19 @@ function setupUserAndSettings() {
   const loginForm = document.getElementById('loginForm');
   const loginMsg = loginForm.querySelector('.form-msg');
   const logoutBtn = document.getElementById('logoutBtn');
+  const requestPasswordBtn = document.getElementById('requestPasswordBtn');
 
   const sidebarUserEl = document.getElementById('sidebarUser');
   const sidebarUserEmailEl = document.getElementById('sidebarUserEmail');
 
   const chaveUser = 'swiftly_user_v1';
+  const chavePasswords = 'swiftly_passwords_v1';
 
   function updateSidebarProfile(user) {
     if (!sidebarUserEl || !sidebarUserEmailEl) return;
     if (user) {
-      sidebarUserEl.textContent = user.user;
-      sidebarUserEmailEl.textContent = user.user.includes('@') ? user.user : 'Usuário ativo';
+      sidebarUserEl.textContent = user.email;
+      sidebarUserEmailEl.textContent = user.email.includes('@') ? user.email : 'Usuário ativo';
     } else {
       sidebarUserEl.textContent = 'Convidado';
       sidebarUserEmailEl.textContent = 'Faça login para mais opções';
@@ -372,7 +380,7 @@ function setupUserAndSettings() {
 
   function updateUIForUser(user) {
     if (user) {
-      loginMsg.textContent = 'Logado como ' + user.user;
+      loginMsg.textContent = 'Logado como ' + user.email;
       logoutBtn.style.display = 'inline-block';
     } else {
       loginMsg.textContent = '';
@@ -381,10 +389,99 @@ function setupUserAndSettings() {
     updateSidebarProfile(user);
   }
 
+  // Request password by e-mail (simulado) — senha gerada uma vez e imutável por 2 minutos
+  if (requestPasswordBtn) {
+    requestPasswordBtn.addEventListener('click', () => {
+      const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        loginMsg.textContent = 'Digite um e-mail válido.';
+        return;
+      }
+
+      const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
+      const entry = map[email];
+      const now = Date.now();
+      const WAIT_MS = 2 * 60 * 1000; // 2 minutos
+
+      if (entry && entry.ts && (now - entry.ts) < WAIT_MS) {
+        const remaining = Math.ceil((WAIT_MS - (now - entry.ts)) / 1000);
+        loginMsg.textContent = 'Senha já gerada. Aguarde ' + remaining + 's para solicitar nova senha.';
+        return;
+      }
+
+      // gera senha curta aleatória (apenas para protótipo)
+      const generated = Math.random().toString(36).slice(-8) + String(Math.floor(Math.random()*90+10));
+      map[email] = { pw: generated, ts: now };
+      try {
+        localStorage.setItem(chavePasswords, JSON.stringify(map));
+      } catch (e) {
+        console.warn('Não foi possível salvar a senha:', e);
+        loginMsg.textContent = 'Erro ao gerar senha. Tente novamente.';
+        return;
+      }
+
+      // prepara e tenta abrir o cliente de e-mail (mailto) para envio real pelo usuário
+      const subject = 'Swiftly — Sua senha de acesso';
+      const body = `Olá,%0A%0ASua senha temporária para acessar o Swiftly é: ${generated}%0A%0AEsta senha foi gerada em ${new Date(now).toLocaleString()} e não poderá ser alterada por 2 minutos.%0A%0AAtenciosamente,%0ASwiftly`;
+      const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+      // registra tentativa de envio para rastreio local
+      const logKey = 'swiftly_email_log_v1';
+      try {
+        const logMap = JSON.parse(localStorage.getItem(logKey) || '{}');
+        logMap[email] = { lastSentTs: now, method: 'mailto' };
+        localStorage.setItem(logKey, JSON.stringify(logMap));
+      } catch(e){ console.warn('Não foi possível registrar envio de e-mail', e); }
+
+      // abre o cliente de e-mail do usuário (o envio fica por conta do cliente)
+      try { window.location.href = mailto; } catch(e) { console.warn('Não foi possível abrir mailto', e); }
+
+      // melhorar experiência quando o e-mail não é enviado: copiar a senha ao clipboard (se permitido)
+      (async () => {
+        const resendId = 'resendMailtoBtn';
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(generated);
+            loginMsg.innerHTML = 'Senha gerada. A senha foi copiada para a área de transferência. <a href="#" id="' + resendId + '">Reenviar e-mail</a> para abrir o cliente de e-mail novamente.';
+          } else {
+            loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail.';
+          }
+        } catch (err) {
+          // clipboard pode falhar (site não seguro, permissão negada, etc.)
+          console.warn('Não foi possível copiar a senha para o clipboard', err);
+          loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail. Se não funcionar, copie a senha do log do console.';
+        }
+
+        // attach listener ao link de reenvio criado dinamicamente
+        const el = loginMsg.querySelector('#' + resendId);
+        if (el) {
+          el.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            try { window.location.href = mailto; } catch(e) { console.warn('Não foi possível abrir mailto', e); alert('Não foi possível abrir o cliente de e-mail. Copie a senha da área de transferência.'); }
+          });
+        }
+      })();
+
+      // registrar em console apenas para depuração (não mostrar na interface)
+      console.debug('Swiftly: senha gerada para', email, '->', generated);
+    });
+  }
+
+  // submit do login: valida senha gerada anteriormente e grava sessão simples
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const fd = new FormData(loginForm);
-    const user = { user: fd.get('user'), remember: !!fd.get('remember') };
+    const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
+    const password = (loginForm.elements['password'] && loginForm.elements['password'].value) || '';
+
+    if (!email || !password) { loginMsg.textContent = 'Preencha e-mail e senha.'; return; }
+
+    const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
+    const record = map[email];
+    if (!record || !record.pw) { loginMsg.textContent = 'Nenhuma senha gerada para este e-mail. Solicite primeiro.'; return; }
+    if (record.pw !== password) { loginMsg.textContent = 'Senha incorreta.'; return; }
+
+    const remember = !!(loginForm.elements['remember'] && loginForm.elements['remember'].checked);
+    const user = { email, remember };
     localStorage.setItem(chaveUser, JSON.stringify(user));
     updateUIForUser(user);
   });
@@ -551,7 +648,6 @@ window.addEventListener('DOMContentLoaded', () => {
     sidebarAvatar.style.height = '56px';
     sidebarAvatar.style.objectFit = 'cover';
     sidebarAvatar.style.borderRadius = '50%';
-    // ensure sidebar inner elements visible
     const sideInner = document.querySelector('#sideBar .sidebar-inner');
     if (sideInner) sideInner.style.display = '';
   }
@@ -560,17 +656,18 @@ window.addEventListener('DOMContentLoaded', () => {
     try {
       const d = localStorage.getItem(chaveAvatar);
       if (d && sidebarAvatar) setAvatarDataURL(d);
-    } catch(e) { /* ignore storage errors */ }
+    } catch(e) { /* ignore */ }
   }
-  loadAvatar();
 
   function attach(){
     if (!changeAvatarBtn || !avatarInput || !sidebarAvatar) return;
     changeAvatarBtn.addEventListener('click', (e) => { e.preventDefault(); avatarInput.click(); });
+
     avatarInput.addEventListener('change', (e) => {
       const f = e.target.files && e.target.files[0];
       if (!f) return;
       if (!f.type.startsWith('image/')) { alert('Escolha uma imagem.'); avatarInput.value = ''; return; }
+
       const reader = new FileReader();
       reader.onload = function(ev){
         const raw = ev.target.result;
@@ -597,5 +694,5 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', attach); } else attach();
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => { loadAvatar(); attach(); }); } else { loadAvatar(); attach(); }
 })();
