@@ -166,25 +166,58 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: -1;
+  /* camadas: dois radiais para profundidade, gradiente base e padrão de linhas animadas */
   background-image:
     radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.16), transparent 30%),
-    radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.08), transparent 25%),
-    linear-gradient(
-      180deg,
-      rgba(249,255,255,0.95) 0%,
-      rgba(225,249,254,0.85) 18%,
-      rgba(200,236,251,0.9) 35%,
-      rgba(160,216,245,0.95) 60%,
-      rgba(120,188,238,1) 100%
-    );
-  filter: saturate(1.05);
+    radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.06), transparent 25%),
+    linear-gradient(180deg, rgba(249,255,255,0.95) 0%, rgba(225,249,254,0.85) 18%, rgba(200,236,251,0.9) 35%, rgba(160,216,245,0.95) 60%, rgba(120,188,238,1) 100%),
+    /* repeating thin diagonal lines for texture */
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 2px, rgba(255,255,255,0) 2px 8px);
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-size: cover, cover, cover, 240px 240px;
+  /* anima a camada de linhas para dar sensação de movimento */
+  animation: bg-lines 18s linear infinite;
+  filter: saturate(1.05) blur(0.2px);
 }
+
+@keyframes bg-lines {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+  50% { background-position: -300px 0, 150px 0, 0 0, 120px 120px; }
+  100% { background-position: -600px 0, 300px 0, 0 0, 240px 240px; }
+}
+
+/* brilho deslizante complementar (aplicado com pseudo-elemento existente) */
+body::after {
+  content: "";
+  position: absolute;
+  right: -120px;
+  top: 120px;
+  width: 420px;
+  height: 380px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.48), transparent 30%);
+  filter: blur(36px) saturate(1.05);
+  z-index: -1;
+  opacity: 0.95;
+  transform: rotate(8deg);
+  pointer-events: none;
+  animation: gloss 9s ease-in-out infinite alternate;
+}
+
+@keyframes gloss {
+  0% { transform: translateX(0) rotate(6deg) scale(1); opacity: 0.9; }
+  50% { transform: translateX(-40px) rotate(8deg) scale(1.03); opacity: 1; }
+  100% { transform: translateX(-80px) rotate(10deg) scale(1.06); opacity: 0.9; }
+}
+
+/* keep subtlety in dark theme: reduce intensity of lines and gloss */
+body.theme-dark::before { filter: saturate(0.9) brightness(0.6) blur(0.2px); }
+body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
 
 .conteudo {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 350px);
-  gap: 70px;
+  gap: 60px;
   width: 1250px;
   margin: 60px auto;
   justify-items: center;
@@ -193,7 +226,7 @@ body::before {
 
 /* CAIXAS GRANDES */
 .caixa {
-  width: 90%;
+  width: 80%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.1);
   border: 3px solid black;

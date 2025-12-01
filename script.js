@@ -357,7 +357,7 @@ function setupUserAndSettings() {
   const sidebarUserEl = document.getElementById('sidebarUser');
   const sidebarUserEmailEl = document.getElementById('sidebarUserEmail');
 
-  const chaveUser = 'medfast_user_v1';
+  const chaveUser = 'swiftly_user_v1';
 
   function updateSidebarProfile(user) {
     if (!sidebarUserEl || !sidebarUserEmailEl) return;
@@ -470,7 +470,7 @@ function setupUserAndSettings() {
     const csv = rows.map(r=> r.map(c=> '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'pedidos_medfast.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    const a = document.createElement('a'); a.href = url; a.download = 'pedidos_swiftly.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
   const clearBtn = document.getElementById('clearPedidos');
@@ -485,7 +485,7 @@ function setupUserAndSettings() {
   const settingsForm = document.getElementById('settingsForm');
   const settingsMsg = settingsForm.querySelector('.form-msg');
   const resetSettings = document.getElementById('resetSettings');
-  const chaveSettings = 'medfast_settings_v1';
+  const chaveSettings = 'swiftly_settings_v1';
 
   function applySettings(obj) {
     if (!obj) return;
@@ -542,7 +542,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const avatarInput = document.getElementById('avatarInput');
   const changeAvatarBtn = document.getElementById('changeAvatarBtn');
   const sidebarAvatar = document.getElementById('sidebarAvatar');
-  const chaveAvatar = 'medfast_avatar_v1';
+  const chaveAvatar = 'swiftly_avatar_v1';
 
   function setAvatarDataURL(data) {
     if (!sidebarAvatar) return;
