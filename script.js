@@ -329,6 +329,31 @@ function setupSidebar() {
   closeBtn.addEventListener('click', close);
   overlay.addEventListener('click', close);
 
+  // Sidebar quick-call button: fecha sidebar e abre lista de hospitais, iniciando a ação de chamada no primeiro hospital
+  const sidebarCallBtn = document.getElementById('sidebarCallBtn');
+  if (sidebarCallBtn) {
+    sidebarCallBtn.addEventListener('click', () => {
+      // fecha sidebar
+      close();
+      // procura a primeira lista de hospitais na página
+      const hospList = document.querySelector('.hosp-list');
+      if (!hospList) return;
+      // mostra a seção que contém a lista de hospitais
+      const section = hospList.closest('.secao');
+      if (section) {
+        document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
+        section.style.display = 'block';
+        window.scrollTo({ top: section.offsetTop - 20, behavior: 'smooth' });
+        // tenta acionar o primeiro botão de chamada dentro da lista (reusa lógica já existente em setupCallButtons)
+        const firstCallBtn = section.querySelector('.call-btn');
+        if (firstCallBtn) {
+          // pequeno atraso para garantir que o navegador tenha rolado e event listeners estejam prontos
+          setTimeout(() => { try { firstCallBtn.click(); } catch(e){ console.warn('Falha ao acionar chamada a partir da sidebar', e); } }, 250);
+        }
+      }
+    });
+  }
+
   // close sidebar when a sidebar link is clicked and scroll to target
   document.querySelectorAll('.sidebar-link').forEach(link => {
     link.addEventListener('click', (e) => {
