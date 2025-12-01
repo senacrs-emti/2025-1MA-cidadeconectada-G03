@@ -148,12 +148,47 @@ button[data-tip]:hover::after {
   top: -33px;
 }
 
-h1 {
+h1#rain {
+  user-select: none;
   font-size: 38px;
-  color: black;
-  margin-top: 20px;
+  color: #0b3b57; 
+  margin-top: 40px;
   text-align: center;
   width: 100%;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+body > h1#rain {
+  position: relative;
+  font-size: clamp(24px, 4.2vw, 40px);
+  color: #0b3b57;
+  background: none;
+  padding: 6px 8px;
+  z-index: 2;
+}
+
+body > h1#rain ::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -8px;
+  width: 36%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(11,59,87,0.28); 
+  box-shadow: 0 6px 18px rgba(11,59,87,0.06);
+  transition: width 360ms ease, opacity 260ms ease;
+  opacity: 0.95;
+}
+
+body > h1#rain :hover::after {
+  width: 44%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body > h1::after { transition: none; }
 }
 
 body {
@@ -167,6 +202,10 @@ body {
   font-family: sans-serif;
   background-color: var(--bg);
   color: var(--text);
+  /* animação brusca: passos discretos (mudança instantânea) */
+  animation: bg-blue 5s steps(5, end) infinite;
+  /* remover transição para evitar suavização entre cores */
+  transition: none;
 }
 
 body::before {
@@ -175,11 +214,12 @@ body::before {
   inset: 0;
   z-index: -1;
   background-image:
-    radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.16), transparent 30%),
-    radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.06), transparent 25%),
-    linear-gradient(180deg, rgba(249,255,255,0.95) 0%, rgba(225,249,254,0.85) 18%, rgba(200,236,251,0.9) 35%, rgba(160,216,245,0.95) 60%, rgba(120,188,238,1) 100%),
+    radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.08), transparent 30%),
+    radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.04), transparent 25%),
+    /* opacidade ainda menor para deixar a cor do body aparecer mais */
+    linear-gradient(180deg, rgba(249,255,255,0.40) 0%, rgba(225,249,254,0.35) 18%, rgba(200,236,251,0.30) 35%, rgba(160,216,245,0.38) 60%, rgba(120,188,238,0.45) 100%),
 
-    repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 2px, rgba(255,255,255,0) 2px 8px);
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, rgba(255,255,255,0) 2px 8px);
   background-repeat: no-repeat, no-repeat, no-repeat, repeat;
   background-size: cover, cover, cover, 240px 240px;
   animation: bg-lines 18s linear infinite;
@@ -275,7 +315,7 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
 
 .caixa h1 {
   position: relative;
-  bottom: 25px;
+  bottom: 10px;
   font-size: 35px;
   padding-top: 9px;
   margin-bottom: 30px;
@@ -587,16 +627,110 @@ font-weight: bold;
 
 .banner-box { border-color: rgba(255,255,255,0.5); box-shadow: inset 0 -40px 80px rgba(0,0,0,0.12); }
 
-body::after {
+body::before,
+body::after,
+.banner-box::before,
+.banner-box,
+.caixa,
+.button { animation: none !important; }
+
+body h1:not(#rain),
+.caixa h1 {
+  animation: none !important;
+  transform: none !important;
+}
+
+@keyframes rain-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+#rain {
+  animation: rain-float 3s ease-in-out infinite !important;
+  will-change: transform;
+}
+
+@keyframes h1-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.banner-box { position: relative; }
+.banner-box::before {
   content: "";
   position: absolute;
-  right: -120px;
-  top: 200px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), transparent 30%);
-  filter: blur(28px);
-  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(11,59,87,0.02) 50%, rgba(255,255,255,0.02) 100%);
+  mix-blend-mode: overlay;
+  background-size: 300% 100%;
+  opacity: 0.9;
+  border-radius: inherit;
+  animation: banner-drift 20s linear infinite;
+}
+@keyframes banner-drift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.caixa {
+  will-change: transform;
+  animation: caixa-float 6.5s ease-in-out infinite;
+}
+@keyframes caixa-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+.caixa:hover { transform: translateY(-10px) scale(1.06); }
+
+.button {
+  box-shadow: 0 6px 18px rgba(11,59,87,0.05);
+  animation: button-glow 5s ease-in-out infinite;
+}
+@keyframes button-glow {
+  0% { box-shadow: 0 6px 18px rgba(11,59,87,0.04); }
+  50% { box-shadow: 0 12px 28px rgba(11,59,87,0.08); }
+  100% { box-shadow: 0 6px 18px rgba(11,59,87,0.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body > h1,
+  body,
+  .banner-box::before,
+  .caixa,
+  .button { animation: none !important; }
+}
+
+*:not(#rain):not(#rain *):not(body):not(body *) {
+  animation: none !important;
+  transition: none !important;
+}
+
+*:not(#rain):not(#rain *):not(body):not(body *) :hover {
+  transform: none !important;
+}
+
+@keyframes rain-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+#rain {
+  animation: rain-float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes bg-blue {
+  0%   { background-color: #aeefff; }
+  20%  { background-color: #6fe8ff; }
+  40%  { background-color: #2ddcff; }
+  60%  { background-color: #6fe8ff; }
+  80%  { background-color: #aeefff; }
+  100% { background-color: #aeefff; }
 }
 
 :root{
