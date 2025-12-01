@@ -148,6 +148,14 @@ button[data-tip]:hover::after {
   top: -33px;
 }
 
+h1 {
+  font-size: 38px;
+  color: black;
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
 body {
   width: 100%;
   display: flex;
@@ -266,6 +274,8 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
 }
 
 .caixa h1 {
+  position: relative;
+  bottom: 25px;
   font-size: 35px;
   padding-top: 9px;
   margin-bottom: 30px;
@@ -303,6 +313,7 @@ font-weight: bold;
 
 /*CAIXAS PEQUENAS*/
 .mini-container {
+  bottom: 20px;
   width: 370px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
