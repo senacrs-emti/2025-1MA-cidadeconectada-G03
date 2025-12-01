@@ -202,9 +202,7 @@ body {
   font-family: sans-serif;
   background-color: var(--bg);
   color: var(--text);
-  /* animação brusca: passos discretos (mudança instantânea) */
   animation: bg-blue 5s steps(5, end) infinite;
-  /* remover transição para evitar suavização entre cores */
   transition: none;
 }
 
@@ -216,7 +214,6 @@ body::before {
   background-image:
     radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.08), transparent 30%),
     radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.04), transparent 25%),
-    /* opacidade ainda menor para deixar a cor do body aparecer mais */
     linear-gradient(180deg, rgba(249,255,255,0.40) 0%, rgba(225,249,254,0.35) 18%, rgba(200,236,251,0.30) 35%, rgba(160,216,245,0.38) 60%, rgba(120,188,238,0.45) 100%),
 
     repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, rgba(255,255,255,0) 2px 8px);
