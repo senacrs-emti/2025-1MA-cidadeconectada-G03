@@ -34,10 +34,9 @@ button.addEventListener("click", function () {
             const lng = position.coords.longitude;
 
             setStatus("Localização obtida");
-            // esconde mensagem após 2 segundos
+           
             setTimeout(() => setStatus('', false), 2000);
 
-            // Agora abre a ROTA exata
             const url =
                 `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=hospital&travelmode=driving`;
 
@@ -68,15 +67,12 @@ button.addEventListener("click", function () {
 
 document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
 
-// Pega todos os links dos botões
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function (event) {
     event.preventDefault();
 
-    // Fecha todas as seções
     document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
 
-    // Mostra a clicada
     const id = this.getAttribute('href').substring(1);
     const alvo = document.getElementById(id);
 
@@ -85,7 +81,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
       window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
     }
 
-    // se for login, foca o campo de e-mail
     if (id === 'login') {
       const input = document.querySelector('#loginForm input[name="email"]');
       if (input) input.focus();
@@ -93,7 +88,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-// Form handling for atestado forms
 function handleAtestadoForms() {
   const forms = document.querySelectorAll('.atestado-form');
   forms.forEach(form => {
@@ -111,7 +105,7 @@ function handleAtestadoForms() {
       const payload = {};
       data.forEach((v,k) => payload[k]=v);
       payload.group = form.getAttribute('data-group') || '';
-      // Simulação de envio: salvar no localStorage e mostrar mensagem
+   
       const chave = 'atestado_pedidos_v1';
       const pedidos = JSON.parse(localStorage.getItem(chave) || '[]');
       pedidos.push({payload, date: new Date().toISOString()});
@@ -120,7 +114,7 @@ function handleAtestadoForms() {
       msg.textContent = 'Pedido enviado. Voltaremos em breve.';
       form.reset();
 
-      // envia para hospital próximo — apenas dentro de Porto Alegre
+      
       if (payload.hospital) {
         const POA_CENTER = { lat: -30.0346, lng: -51.2177 };
         const MAX_KM = 50; // distância máxima aceitável (km)
@@ -138,35 +132,35 @@ function handleAtestadoForms() {
         }
 
         function openPoaSearchAt(lat, lng){
-          // abre pesquisa por hospitais em Porto Alegre, centrada na posição do usuário
+         
           const url = `https://www.google.com/maps/search/hospital+Porto+Alegre/@${lat},${lng},13z`;
           window.open(url, '_blank');
         }
 
         if (!navigator.geolocation) {
-          // sem geolocalização, abre busca por hospital em POA usando nome escolhido
+          
           const url = `https://www.google.com/maps/search/${encodeURIComponent(payload.hospital + ' Porto Alegre')}`;
           window.open(url, '_blank');
         } else {
-          // tenta obter localização do usuário para garantir que esteja em POA
+         
           navigator.geolocation.getCurrentPosition(function(pos){
             const lat = pos.coords.latitude;
             const lng = pos.coords.longitude;
             const dist = haversineKm(lat, lng, POA_CENTER.lat, POA_CENTER.lng);
 
             if (dist <= MAX_KM) {
-              // usuário dentro do raio de POA: abre mapa centrado nele
+             
               openPoaSearchAt(lat, lng);
             } else {
-              // usuário fora de POA — não enviamos automaticamente para hospitais fora de POA
+             
               msg.textContent = 'Só enviamos pedidos automáticos para hospitais em Porto Alegre. Abrindo busca em POA.';
-              // abre busca centrada em Porto Alegre para o hospital escolhido
+              
               const url = `https://www.google.com/maps/search/${encodeURIComponent(payload.hospital + ' Porto Alegre')}`;
               window.open(url, '_blank');
             }
 
           }, function(err){
-            // erro ao obter posição: aborta e abre busca pelo hospital em POA
+            
             const url = `https://www.google.com/maps/search/${encodeURIComponent(payload.hospital + ' Porto Alegre')}`;
             window.open(url, '_blank');
           }, { enableHighAccuracy: true, timeout: 7000 });
@@ -176,7 +170,6 @@ function handleAtestadoForms() {
   });
 }
 
-// Form handling for exames (client-side only)
 function handleExameForms() {
   const forms = document.querySelectorAll('.exame-form');
   forms.forEach(form => {
@@ -200,7 +193,6 @@ function handleExameForms() {
         return;
       }
 
-      // valida tipos e tamanhos (limite 5MB por arquivo)
       for (const f of files) {
         if (!['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'].includes(f.type) && !f.type.startsWith('image/')) {
           msg.textContent = 'Formato inválido: ' + f.name;
@@ -212,7 +204,6 @@ function handleExameForms() {
         }
       }
 
-      // Simulação: armazenar metadados dos arquivos no localStorage (não armazenamos os arquivos em si)
       const data = new FormData(form);
       const payload = {};
       data.forEach((v,k) => {
@@ -232,7 +223,6 @@ function handleExameForms() {
   });
 }
 
-// Handling call buttons and modal
 function setupCallButtons() {
   const callBtns = document.querySelectorAll('.call-btn');
   const modal = document.getElementById('callModal');
@@ -250,9 +240,9 @@ function setupCallButtons() {
     modalMapsLink.href = `https://www.google.com/maps/search/${encodeURIComponent(name + ' Porto Alegre')}`;
     modal.setAttribute('aria-hidden', 'false');
     modal.style.display = 'block';
-    // focus first actionable button
+ 
     modalCallNow.focus();
-    // attach escape listener
+   
     document.addEventListener('keydown', escHandler);
   }
 
@@ -269,32 +259,28 @@ function setupCallButtons() {
       const phone = btn.getAttribute('data-phone');
       const name = btn.getAttribute('data-name');
 
-      // em dispositivos móveis, usamos tel: direto
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         window.location.href = `tel:${phone}`;
         return;
       }
 
-      // em desktop mostramos modal com número e opção de copiar
       openModal(name, phone);
     });
   });
 
-  // fechar ao clicar no X
   modalClose.addEventListener('click', closeModal);
-  // fechar ao clicar fora do conteúdo
+  
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
   copyPhone.addEventListener('click', () => {
     const phone = modalPhoneLink.textContent;
     navigator.clipboard.writeText(phone).then(() => {
-      // feedback leve
+     
       copyPhone.textContent = 'Copiado';
       setTimeout(() => copyPhone.textContent = 'Copiar', 1500);
     }).catch(()=> alert('Não foi possível copiar.'));
   });
 
-  // tentativa de iniciar ligação via tel: a partir do modal (pode abrir app no desktop)
   modalCallNow.addEventListener('click', () => {
     const phone = modalPhoneLink.textContent;
     try {
@@ -305,7 +291,6 @@ function setupCallButtons() {
   });
 }
 
-// sidebar interactions (updated: close on link click and focus login)
 function setupSidebar() {
   const toggle = document.querySelector('.sidebar-toggle');
   const sidebar = document.getElementById('sideBar');
@@ -329,46 +314,45 @@ function setupSidebar() {
   closeBtn.addEventListener('click', close);
   overlay.addEventListener('click', close);
 
-  // Sidebar quick-call button: fecha sidebar e abre lista de hospitais, iniciando a ação de chamada no primeiro hospital
+  
   const sidebarCallBtn = document.getElementById('sidebarCallBtn');
   if (sidebarCallBtn) {
     sidebarCallBtn.addEventListener('click', () => {
-      // fecha sidebar
+     
       close();
-      // procura a primeira lista de hospitais na página
+     
       const hospList = document.querySelector('.hosp-list');
       if (!hospList) return;
-      // mostra a seção que contém a lista de hospitais
+      
       const section = hospList.closest('.secao');
       if (section) {
         document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
         section.style.display = 'block';
         window.scrollTo({ top: section.offsetTop - 20, behavior: 'smooth' });
-        // tenta acionar o primeiro botão de chamada dentro da lista (reusa lógica já existente em setupCallButtons)
+        
         const firstCallBtn = section.querySelector('.call-btn');
         if (firstCallBtn) {
-          // pequeno atraso para garantir que o navegador tenha rolado e event listeners estejam prontos
+         
           setTimeout(() => { try { firstCallBtn.click(); } catch(e){ console.warn('Falha ao acionar chamada a partir da sidebar', e); } }, 250);
         }
       }
     });
   }
 
-  // close sidebar when a sidebar link is clicked and scroll to target
   document.querySelectorAll('.sidebar-link').forEach(link => {
     link.addEventListener('click', (e) => {
-      // allow normal anchor navigation to section
+      
       close();
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
         const id = href.substring(1);
         const alvo = document.getElementById(id);
         if (alvo) {
-          // show target section (same behavior as top links)
+         
           document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
           alvo.style.display = 'block';
           window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
-          // if target is login, focus first input
+          
           if (id === 'login') {
             const input = document.querySelector('#loginForm input[name="email"]');
             if (input) input.focus();
@@ -379,7 +363,6 @@ function setupSidebar() {
   });
 }
 
-// Simple login + settings + pedidos UI (updated to sync sidebar profile)
 function setupUserAndSettings() {
   const loginForm = document.getElementById('loginForm');
   const loginMsg = loginForm.querySelector('.form-msg');
@@ -414,7 +397,6 @@ function setupUserAndSettings() {
     updateSidebarProfile(user);
   }
 
-  // Request password by e-mail (simulado) — senha gerada uma vez e imutável por 2 minutos
   if (requestPasswordBtn) {
     requestPasswordBtn.addEventListener('click', () => {
       const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
@@ -426,7 +408,7 @@ function setupUserAndSettings() {
       const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
       const entry = map[email];
       const now = Date.now();
-      const WAIT_MS = 2 * 60 * 1000; // 2 minutos
+      const WAIT_MS = 2 * 60 * 1000; 
 
       if (entry && entry.ts && (now - entry.ts) < WAIT_MS) {
         const remaining = Math.ceil((WAIT_MS - (now - entry.ts)) / 1000);
@@ -434,7 +416,6 @@ function setupUserAndSettings() {
         return;
       }
 
-      // gera senha curta aleatória (apenas para protótipo)
       const generated = Math.random().toString(36).slice(-8) + String(Math.floor(Math.random()*90+10));
       map[email] = { pw: generated, ts: now };
       try {
@@ -445,12 +426,10 @@ function setupUserAndSettings() {
         return;
       }
 
-      // prepara e tenta abrir o cliente de e-mail (mailto) para envio real pelo usuário
       const subject = 'Swiftly — Sua senha de acesso';
       const body = `Olá,%0A%0ASua senha temporária para acessar o Swiftly é: ${generated}%0A%0AEsta senha foi gerada em ${new Date(now).toLocaleString()} e não poderá ser alterada por 2 minutos.%0A%0AAtenciosamente,%0ASwiftly`;
       const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
 
-      // registra tentativa de envio para rastreio local
       const logKey = 'swiftly_email_log_v1';
       try {
         const logMap = JSON.parse(localStorage.getItem(logKey) || '{}');
@@ -458,10 +437,8 @@ function setupUserAndSettings() {
         localStorage.setItem(logKey, JSON.stringify(logMap));
       } catch(e){ console.warn('Não foi possível registrar envio de e-mail', e); }
 
-      // abre o cliente de e-mail do usuário (o envio fica por conta do cliente)
       try { window.location.href = mailto; } catch(e) { console.warn('Não foi possível abrir mailto', e); }
 
-      // melhorar experiência quando o e-mail não é enviado: copiar a senha ao clipboard (se permitido)
       (async () => {
         const resendId = 'resendMailtoBtn';
         try {
@@ -472,12 +449,11 @@ function setupUserAndSettings() {
             loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail.';
           }
         } catch (err) {
-          // clipboard pode falhar (site não seguro, permissão negada, etc.)
+         
           console.warn('Não foi possível copiar a senha para o clipboard', err);
           loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail. Se não funcionar, copie a senha do log do console.';
         }
 
-        // attach listener ao link de reenvio criado dinamicamente
         const el = loginMsg.querySelector('#' + resendId);
         if (el) {
           el.addEventListener('click', (ev) => {
@@ -487,12 +463,10 @@ function setupUserAndSettings() {
         }
       })();
 
-      // registrar em console apenas para depuração (não mostrar na interface)
       console.debug('Swiftly: senha gerada para', email, '->', generated);
     });
   }
 
-  // submit do login: valida senha gerada anteriormente e grava sessão simples
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
@@ -516,7 +490,6 @@ function setupUserAndSettings() {
     updateUIForUser(null);
   });
 
-  // Meus pedidos
   const pedidosList = document.getElementById('pedidosList');
   function renderPedidos() {
     const pedidos = JSON.parse(localStorage.getItem('atestado_pedidos_v1') || '[]');
@@ -527,7 +500,6 @@ function setupUserAndSettings() {
     }
     pedidosList.innerHTML = '';
 
-    // render atestados
     if (pedidos.length) {
       const h = document.createElement('h3'); h.textContent = 'Pedidos de Atestado'; pedidosList.appendChild(h);
       pedidos.forEach((item, idx) => {
@@ -543,7 +515,6 @@ function setupUserAndSettings() {
       });
     }
 
-    // render exames
     if (exames.length) {
       const h2 = document.createElement('h3'); h2.textContent = 'Envios de Exames'; pedidosList.appendChild(h2);
       exames.forEach((item, idx) => {
@@ -559,7 +530,6 @@ function setupUserAndSettings() {
       });
     }
 
-    // attach remove handlers
     document.querySelectorAll('.remove-pedido').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const i = Number(e.target.getAttribute('data-idx'));
@@ -580,7 +550,6 @@ function setupUserAndSettings() {
     });
   }
 
-  // export to CSV
   const exportBtn = document.getElementById('exportPedidos');
   if (exportBtn) exportBtn.addEventListener('click', () => {
     const pedidos = JSON.parse(localStorage.getItem('atestado_pedidos_v1') || '[]');
@@ -603,7 +572,6 @@ function setupUserAndSettings() {
     renderPedidos();
   });
 
-  // settings
   const settingsForm = document.getElementById('settingsForm');
   const settingsMsg = settingsForm.querySelector('.form-msg');
   const resetSettings = document.getElementById('resetSettings');
@@ -614,7 +582,7 @@ function setupUserAndSettings() {
     if (obj.theme === 'dark') document.body.classList.add('theme-dark'); else document.body.classList.remove('theme-dark');
     if (obj.accent) {
       document.documentElement.style.setProperty('--accent-color', obj.accent);
-      // set data-attribute so CSS helper rules (body[data-accent]) apply darker variations
+      
       try { document.body.setAttribute('data-accent', obj.accent); } catch(e) { /* ignore */ }
     } else {
       document.documentElement.style.removeProperty('--accent-color');
@@ -637,20 +605,17 @@ function setupUserAndSettings() {
     settingsMsg.textContent = 'Restaurado.';
   });
 
-  // carregar estado
   const savedUser = JSON.parse(localStorage.getItem(chaveUser) || 'null');
   updateUIForUser(savedUser);
   const savedSettings = JSON.parse(localStorage.getItem(chaveSettings) || 'null');
   applySettings(savedSettings || { theme: 'light', accent: '#0b84ff' });
 
-  // sincroniza valores do formulário de configurações com o estado salvo
   if (settingsForm && savedSettings) {
     settingsForm.elements['theme'].value = savedSettings.theme || 'light';
     settingsForm.elements['accent'].value = savedSettings.accent || '#0b84ff';
   }
 }
 
-// chama depois que o DOM estiver pronto
 window.addEventListener('DOMContentLoaded', () => {
   handleAtestadoForms();
   handleExameForms();
@@ -659,7 +624,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setupUserAndSettings();
 });
 
-// avatar change handling (resizes before saving, keeps sidebar visible)
 (function(){
   const avatarInput = document.getElementById('avatarInput');
   const changeAvatarBtn = document.getElementById('changeAvatarBtn');
