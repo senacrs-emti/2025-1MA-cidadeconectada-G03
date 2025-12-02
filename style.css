@@ -3,19 +3,20 @@
   padding: 0px;
 }
 
-/*imagem = https://i.postimg.cc/7Lxz4Tq7/generated-image.png*/
+/*imagem = https://i.postimg.cc/pdD31vCS/trac-certo.png*/
 
 .banner-box {
-    width: 1518px;             
-    height: 400px;      
-    border: 2px solid aqua;      
+    width: 1230px;             
+    height: 300px;  
+    right: 8.5px;   
+    border: 3px solid aqua;      
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    background-image: url('https://i.postimg.cc/7Lxz4Tq7/generated-image.png');
+    background-image: url('https://i.postimg.cc/pdD31vCS/trac-certo.png');
     background-size: cover;   
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    background-position: center;
+    background-repeat:no-repeat;
     animation: slide-bg 12s linear infinite;
     user-select: none;
     pointer-events: none;
@@ -148,49 +149,6 @@ button[data-tip]:hover::after {
   top: -33px;
 }
 
-h1#rain {
-  user-select: none;
-  font-size: 38px;
-  color: #0b3b57; 
-  margin-top: 40px;
-  text-align: center;
-  width: 100%;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-body > h1#rain {
-  position: relative;
-  font-size: clamp(24px, 4.2vw, 40px);
-  color: #0b3b57;
-  background: none;
-  padding: 6px 8px;
-  z-index: 2;
-}
-
-body > h1#rain ::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -8px;
-  width: 36%;
-  height: 2px;
-  border-radius: 2px;
-  background: rgba(11,59,87,0.28); 
-  box-shadow: 0 6px 18px rgba(11,59,87,0.06);
-  transition: width 360ms ease, opacity 260ms ease;
-  opacity: 0.95;
-}
-
-body > h1#rain :hover::after {
-  width: 44%;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body > h1::after { transition: none; }
-}
-
 body {
   width: 100%;
   display: flex;
@@ -280,10 +238,11 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   position: relative;
   transition: transform .5s ease, background .5s ease;
+  cursor: pointer;
 }
 
 .caixa:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 #um {
@@ -307,7 +266,8 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
 #quatro {
  background-image: url('https://i.postimg.cc/sXK1pdxz/Chat-GPT-Image-29-de-nov-de-2025-17-05-00.png');
  background-size: cover;
- background-repeat: no-repeat; 
+ background-repeat: no-repeat;  
+ filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); 
 }
 
 .caixa h1 {
@@ -370,7 +330,7 @@ font-weight: bold;
 }
 
 .mini:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
   background-color: rgba(1,1,1,0.25);
 }
 
@@ -380,7 +340,7 @@ font-weight: bold;
   border-radius: 11px;
   object-fit: cover;
   display: block;
-  filter: opacity(0.7);
+  cursor: pointer;
 }
 
 .mini button img {
@@ -390,6 +350,7 @@ font-weight: bold;
   display: block;
   border-radius: 11px;
   overflow: hidden;
+  filter: opacity(0.95);
 }
 
 .mini button::after {
@@ -526,6 +487,7 @@ font-weight: bold;
   background: rgba(0,0,0,0.4);
   display: none;
   z-index: 60;
+  user-select: none;
 }
 
 .sidebar {
@@ -540,6 +502,8 @@ font-weight: bold;
   z-index: 70;
   padding: 18px;
   border-left: 1px solid rgba(0,0,0,0.06);
+  overflow-y: auto;
+  user-select: none;
 }
 
 .sidebar.open { right: 0; }
@@ -567,6 +531,7 @@ font-weight: bold;
   cursor: pointer;
   text-decoration: none;
   color: #0b3b5a;
+  user-select: none;
 }
 
 .sidebar-action { background: var(--accent-color); color: white; }
@@ -582,6 +547,7 @@ font-weight: bold;
   border-radius: 8px;
   font-size: 22px;
   cursor: pointer;
+  user-select: none;
 }
 
 .login-form, .settings-form {
