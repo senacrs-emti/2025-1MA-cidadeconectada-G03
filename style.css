@@ -173,7 +173,6 @@ body::before {
     radial-gradient(1200px 700px at 15% 75%, rgba(94,173,255,0.08), transparent 30%),
     radial-gradient(900px 500px at 40% 30%, rgba(34,150,210,0.04), transparent 25%),
     linear-gradient(180deg, rgba(249,255,255,0.40) 0%, rgba(225,249,254,0.35) 18%, rgba(200,236,251,0.30) 35%, rgba(160,216,245,0.38) 60%, rgba(120,188,238,0.45) 100%),
-
     repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, rgba(255,255,255,0) 2px 8px);
   background-repeat: no-repeat, no-repeat, no-repeat, repeat;
   background-size: cover, cover, cover, 240px 240px;
@@ -216,11 +215,12 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 350px);
-  gap: 60px;
+  gap: 120px;
   width: 1250px;
   margin: 60px auto;
   justify-items: center;
   align-items: center;
+  filter: opacity(0.95);
 }
 
 /* CAIXAS GRANDES */
@@ -266,8 +266,7 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
 #quatro {
  background-image: url('https://i.postimg.cc/sXK1pdxz/Chat-GPT-Image-29-de-nov-de-2025-17-05-00.png');
  background-size: cover;
- background-repeat: no-repeat;  
- filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); 
+ background-repeat: no-repeat;
 }
 
 .caixa h1 {
@@ -416,6 +415,7 @@ font-weight: bold;
   max-width: 1250px;
   width: calc(100% - 60px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  user-select: none;
 }
 
 .vacina-table {
