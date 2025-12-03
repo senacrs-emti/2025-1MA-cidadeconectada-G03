@@ -238,7 +238,6 @@ body.theme-dark::after { opacity: 0.55; transform: rotate(8deg); }
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   position: relative;
   transition: transform .5s ease, background .5s ease;
-  cursor: pointer;
 }
 
 .caixa:hover {
