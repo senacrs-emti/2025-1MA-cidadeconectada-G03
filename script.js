@@ -685,3 +685,100 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => { loadAvatar(); attach(); }); } else { loadAvatar(); attach(); }
 })();
+
+
+
+
+function setupUserAndSettings() {
+
+  const chaveUser = 'swiftly_user_v1';
+  const chavePasswords = 'swiftly_passwords_v1';
+
+  function saveUser(user, remember) {
+    const data = JSON.stringify(user);
+    if (remember) {
+      localStorage.setItem(chaveUser, data);
+      sessionStorage.removeItem(chaveUser);
+    } else {
+      sessionStorage.setItem(chaveUser, data);
+      localStorage.removeItem(chaveUser);
+    }
+  }
+  function loadUser() {
+    const s = sessionStorage.getItem(chaveUser);
+    const l = localStorage.getItem(chaveUser);
+    return JSON.parse(s || l || 'null');
+  }
+  function clearUser() {
+    localStorage.removeItem(chaveUser);
+    sessionStorage.removeItem(chaveUser);
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
+    const password = (loginForm.elements['password'] && loginForm.elements['password'].value) || '';
+
+    if (!email || !password) { loginMsg.textContent = 'Preencha e-mail e senha.'; return; }
+
+    const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
+    const record = map[email];
+    if (!record || !record.pw) { loginMsg.textContent = 'Nenhuma senha gerada para este e-mail. Solicite primeiro.'; return; }
+    if (record.pw !== password) { loginMsg.textContent = 'Senha incorreta.'; return; }
+
+    const remember = !!(loginForm.elements['remember'] && loginForm.elements['remember'].checked);
+    const user = { email, remember };
+    saveUser(user, remember);
+    updateUIForUser(user);
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    clearUser();
+    updateUIForUser(null);
+  });
+
+  const savedUser = loadUser();
+  updateUIForUser(savedUser);
+}
+// ...existing code...
+function openModal(modal) {
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  const first = modal.querySelector('input, button, a');
+  if (first) first.focus();
+}
+function closeModal(modal) {
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const loginModal = document.getElementById('loginModal');
+  const openLoginBtn = document.getElementById('openLoginBtn'); 
+  if (openLoginBtn && loginModal) {
+    openLoginBtn.addEventListener('click', () => openModal(loginModal));
+  }
+  if (loginModal) {
+    const modalClose = loginModal.querySelector('.modal-close');
+    modalClose && modalClose.addEventListener('click', () => closeModal(loginModal));
+    loginModal.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(loginModal); });
+    loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeModal(loginModal); });
+  }
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginForm.email.value.trim();
+      const password = loginForm.password.value;
+      const remember = loginForm.remember.checked;
+      if (!email || !password) {
+        loginForm.querySelector('.form-msg').textContent = 'Preencha e-mail e senha.';
+        return;
+      }
+      const user = { email, remember };
+      if (remember) localStorage.setItem('swiftly_user_v1', JSON.stringify(user));
+      else sessionStorage.setItem('swiftly_user_v1', JSON.stringify(user));
+      loginForm.querySelector('.form-msg').textContent = 'Logado';
+      closeModal(document.getElementById('loginModal'));
+    });
+  }
+});

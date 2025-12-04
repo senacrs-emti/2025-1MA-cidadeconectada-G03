@@ -316,7 +316,27 @@
         </div>
       </li>
     </ul>
+  <section id="criancas-atestado" class="secao">
+    <h2>Pedir Atestado — Crianças</h2>
+    <form class="atestado-form" data-group="Crianças" id="criancasAtestadoForm">
+      <div class="form-msg" aria-live="polite"></div>
+
+      <label for="cr-nome">Nome completo</label>
+      <input id="cr-nome" name="nome" type="text" required>
+
+      <label for="cr-idade">Idade</label>
+      <input id="cr-idade" name="idade" type="number" min="0" required>
+
+      <label for="cr-contato">E-mail ou telefone</label>
+      <input id="cr-contato" name="contato" type="text" required>
+
+      <label for="cr-justificativa">Motivo / Justificativa</label>
+      <textarea id="cr-justificativa" name="justificativa" rows="3"></textarea>
+
+      <button type="submit">Pedir atestado</button>
+    </form>
   </section>
+</section>
 
   <!-- SEÇÕES ADOLESCENTES -->
   <section id="adolescentes-vacinacao" class="secao">
@@ -802,6 +822,26 @@
   </section>
 
 </main>
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="loginTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fechar">×</button>
+      <h2 id="loginTitle">Login de Usuário</h2>
+      <form id="loginForm" class="login-form">
+        <div class="form-msg" aria-live="polite"></div>
+
+        <label for="loginEmail">E‑mail</label>
+        <input id="loginEmail" name="email" type="email" required>
+
+        <label for="loginPassword">Senha</label>
+        <input id="loginPassword" name="password" type="password" required>
+
+        <label><input id="loginRemember" type="checkbox" name="remember"> Manter conectado</label>
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+  </script>
 
 <script src="./script.js"></script>
 </body>
