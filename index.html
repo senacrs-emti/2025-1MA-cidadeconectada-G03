@@ -669,6 +669,13 @@
     </ul>
   </section>
 
+  <div id="contentModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fechar">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
   <div id="callModal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <button class="modal-close" aria-label="Fechar">x</button>
@@ -708,17 +715,15 @@
     </div>
   </aside>
 
- <section id="login" class="secao">
+  <section id="login" class="secao">
     <h2>Login de Usuário</h2>
     <form id="loginForm" class="login-form">
       <label>E-mail (use um e-mail válido)<br><input type="email" name="email" required placeholder="seu@exemplo.com"></label><br>
       <div style="margin-top:8px;margin-bottom:8px;">
-        <button type="button" id="requestPasswordBtn">Solicitar senha por e-mail</button>
+        <button type="button" id="requestPasswordBtn">Gerar senha</button>
       </div>
 
-      <label>Senha (recebida por e-mail)<br><input type="password" name="password" required placeholder="senha recebida"></label><br>
-
-      <label style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="checkbox" name="remember"> Manter conectado</label>
+      <label>Senha<br><input type="password" name="password" required placeholder="digite a senha"></label><br>      <label style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="checkbox" name="remember"> Manter conectado</label>
       <div class="form-actions">
         <button type="submit">Entrar</button>
         <button type="button" id="logoutBtn" style="display:none;">Sair</button>

@@ -744,6 +744,33 @@ body.theme-dark{
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   border: 1px solid rgba(0,0,0,0.06);
 }
+
+/* Estilos específicos para diferentes tipos de modal */
+.modal-content.modal-criancas-vacinacao,
+.modal-content.modal-adolescentes-vacinacao,
+.modal-content.modal-adultos-vacinacao,
+.modal-content.modal-idosos-vacinacao,
+.modal-content.modal-criancas-conversar,
+.modal-content.modal-adolescentes-conversar,
+.modal-content.modal-adultos-conversar,
+.modal-content.modal-idosos-conversar {
+  width: min(90vw, 900px);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-content.modal-criancas-atestado,
+.modal-content.modal-adolescentes-atestado,
+.modal-content.modal-adultos-atestado,
+.modal-content.modal-idosos-atestado,
+.modal-content.modal-criancas-exames,
+.modal-content.modal-adolescentes-exames,
+.modal-content.modal-adultos-exames,
+.modal-content.modal-idosos-exames {
+  width: min(500px, 92vw);
+  max-height: 85vh;
+  overflow-y: auto;
+}
 .modal-close { float: right; background: transparent; border: 0; font-size: 22px; cursor: pointer; }
 .modal-content p { margin: 10px 0; }
 #modalCallNow { background: var(--accent-color); color: #fff; border: none; padding:8px 12px; border-radius:8px; margin-right:8px; cursor:pointer; }

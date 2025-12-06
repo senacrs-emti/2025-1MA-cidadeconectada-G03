@@ -71,19 +71,41 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function (event) {
     event.preventDefault();
 
-    document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
-
     const id = this.getAttribute('href').substring(1);
     const alvo = document.getElementById(id);
 
-    if (alvo) {
+    if (alvo && alvo.classList.contains('secao')) {
+      // Se for uma seção, abre em modal
+      const modal = document.getElementById('contentModal');
+      const modalBody = document.getElementById('modalBody');
+      const modalContent = modal ? modal.querySelector('.modal-content') : null;
+      
+      if (modal && modalBody) {
+        modalBody.innerHTML = alvo.innerHTML;
+        
+        // Remove classes antigas e adiciona nova baseada no ID
+        if (modalContent) {
+          modalContent.className = 'modal-content modal-' + id;
+        }
+        
+        modal.setAttribute('aria-hidden', 'false');
+        modal.style.display = 'flex';
+        
+        // Re-aplicar event listeners nos formulários do modal
+        handleAtestadoForms();
+        handleExameForms();
+        setupCallButtons();
+      }
+    } else if (alvo) {
+      // Para outras seções (login, sobre, etc), exibe normalmente
+      document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
       alvo.style.display = 'block';
       window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
-    }
-
-    if (id === 'login') {
-      const input = document.querySelector('#loginForm input[name="email"]');
-      if (input) input.focus();
+      
+      if (id === 'login') {
+        const input = document.querySelector('#loginForm input[name="email"]');
+        if (input) input.focus();
+      }
     }
   });
 });
@@ -371,9 +393,25 @@ function setupUserAndSettings() {
 
   const sidebarUserEl = document.getElementById('sidebarUser');
   const sidebarUserEmailEl = document.getElementById('sidebarUserEmail');
+  const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+  const sidebarAvatar = document.getElementById('sidebarAvatar');
 
   const chaveUser = 'swiftly_user_v1';
   const chavePasswords = 'swiftly_passwords_v1';
+
+  function updateAvatarVisibility(user) {
+    if (!changeAvatarBtn) return;
+    if (user) {
+      changeAvatarBtn.style.display = 'block';
+      if (sidebarAvatar) sidebarAvatar.style.display = 'block';
+    } else {
+      changeAvatarBtn.style.display = 'none';
+      if (sidebarAvatar) {
+        sidebarAvatar.src = 'https://i.postimg.cc/3x3Q1YkF/avatar-placeholder.png';
+        sidebarAvatar.style.display = 'none';
+      }
+    }
+  }
 
   function updateSidebarProfile(user) {
     if (!sidebarUserEl || !sidebarUserEmailEl) return;
@@ -395,29 +433,21 @@ function setupUserAndSettings() {
       logoutBtn.style.display = 'none';
     }
     updateSidebarProfile(user);
+    updateAvatarVisibility(user);
   }
 
   if (requestPasswordBtn) {
-    requestPasswordBtn.addEventListener('click', () => {
+    requestPasswordBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
       if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
         loginMsg.textContent = 'Digite um e-mail válido.';
         return;
       }
 
-      const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
-      const entry = map[email];
-      const now = Date.now();
-      const WAIT_MS = 2 * 60 * 1000; 
-
-      if (entry && entry.ts && (now - entry.ts) < WAIT_MS) {
-        const remaining = Math.ceil((WAIT_MS - (now - entry.ts)) / 1000);
-        loginMsg.textContent = 'Senha já gerada. Aguarde ' + remaining + 's para solicitar nova senha.';
-        return;
-      }
-
       const generated = Math.random().toString(36).slice(-8) + String(Math.floor(Math.random()*90+10));
-      map[email] = { pw: generated, ts: now };
+      const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
+      map[email] = { pw: generated };
       try {
         localStorage.setItem(chavePasswords, JSON.stringify(map));
       } catch (e) {
@@ -426,44 +456,18 @@ function setupUserAndSettings() {
         return;
       }
 
-      const subject = 'Swiftly — Sua senha de acesso';
-      const body = `Olá,%0A%0ASua senha temporária para acessar o Swiftly é: ${generated}%0A%0AEsta senha foi gerada em ${new Date(now).toLocaleString()} e não poderá ser alterada por 2 minutos.%0A%0AAtenciosamente,%0ASwiftly`;
-      const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${body}`;
-
-      const logKey = 'swiftly_email_log_v1';
-      try {
-        const logMap = JSON.parse(localStorage.getItem(logKey) || '{}');
-        logMap[email] = { lastSentTs: now, method: 'mailto' };
-        localStorage.setItem(logKey, JSON.stringify(logMap));
-      } catch(e){ console.warn('Não foi possível registrar envio de e-mail', e); }
-
-      try { window.location.href = mailto; } catch(e) { console.warn('Não foi possível abrir mailto', e); }
-
-      (async () => {
-        const resendId = 'resendMailtoBtn';
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(generated);
-            loginMsg.innerHTML = 'Senha gerada. A senha foi copiada para a área de transferência. <a href="#" id="' + resendId + '">Reenviar e-mail</a> para abrir o cliente de e-mail novamente.';
-          } else {
-            loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail.';
-          }
-        } catch (err) {
-         
-          console.warn('Não foi possível copiar a senha para o clipboard', err);
-          loginMsg.innerHTML = 'Senha gerada. <a href="#" id="' + resendId + '">Enviar e-mail</a> para abrir o cliente de e-mail. Se não funcionar, copie a senha do log do console.';
-        }
-
-        const el = loginMsg.querySelector('#' + resendId);
-        if (el) {
-          el.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            try { window.location.href = mailto; } catch(e) { console.warn('Não foi possível abrir mailto', e); alert('Não foi possível abrir o cliente de e-mail. Copie a senha da área de transferência.'); }
-          });
-        }
-      })();
-
-      console.debug('Swiftly: senha gerada para', email, '->', generated);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(generated).then(() => {
+          loginMsg.textContent = 'Senha gerada e copiada para a área de transferência!';
+          console.debug('Swiftly: senha gerada para', email, '->', generated);
+        }).catch(() => {
+          loginMsg.textContent = 'Erro ao copiar para área de transferência. Tente novamente.';
+          console.debug('Swiftly: senha gerada para', email, '->', generated);
+        });
+      } else {
+        loginMsg.textContent = 'Navegador não suporta cópia automática.';
+        console.debug('Swiftly: senha gerada para', email, '->', generated);
+      }
     });
   }
 
@@ -622,6 +626,26 @@ window.addEventListener('DOMContentLoaded', () => {
   setupCallButtons();
   setupSidebar();
   setupUserAndSettings();
+  
+  // Setup do modal de conteúdo
+  const contentModal = document.getElementById('contentModal');
+  const contentModalClose = contentModal ? contentModal.querySelector('.modal-close') : null;
+  
+  if (contentModalClose) {
+    contentModalClose.addEventListener('click', () => {
+      contentModal.setAttribute('aria-hidden', 'true');
+      contentModal.style.display = 'none';
+    });
+  }
+  
+  if (contentModal) {
+    contentModal.addEventListener('click', (e) => {
+      if (e.target === contentModal) {
+        contentModal.setAttribute('aria-hidden', 'true');
+        contentModal.style.display = 'none';
+      }
+    });
+  }
 });
 
 (function(){
