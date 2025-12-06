@@ -691,14 +691,14 @@
 
   <div id="contentModal" class="modal" aria-hidden="true">
     <div class="modal-content">
-      <button class="modal-close" aria-label="Fechar">✕</button>
+      <button id="closeContentModal" class="modal-close" aria-label="Fechar">✕</button>
       <div id="modalBody"></div>
     </div>
   </div>
 
   <div id="callModal" class="modal" aria-hidden="true">
     <div class="modal-content">
-      <button class="modal-close" aria-label="Fechar">x</button>
+      <button id="closeCallModal" class="modal-close" aria-label="Fechar">x</button>
       <h3 id="modalHospitalName">Hospital</h3>
       <p>Número: <a href="#" id="modalPhoneLink"></a> <button id="copyPhone">Copiar</button></p>
       <p>
@@ -826,10 +826,10 @@
     </form>
   </section>
 
-</main>
+<main>
   <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="loginTitle">
     <div class="modal-content">
-      <button class="modal-close" aria-label="Fechar">×</button>
+      <button id="closeLoginModal" class="modal-close" aria-label="Fechar">×</button>
       <h2 id="loginTitle">Login de Usuário</h2>
       <form id="loginForm" class="login-form">
         <div class="form-msg" aria-live="polite"></div>

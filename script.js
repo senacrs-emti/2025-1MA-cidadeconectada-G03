@@ -67,6 +67,47 @@ button.addEventListener("click", function () {
 
 document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
 
+// ========== SISTEMA DE FECHAMENTO DE MODALS ==========
+// Função para fechar qualquer modal
+function closeModal(modal) {
+  if (!modal) return;
+  modal.setAttribute('aria-hidden', 'true');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+  if (modal.id === 'contentModal') {
+    const modalBody = document.getElementById('modalBody');
+    if (modalBody) modalBody.innerHTML = '';
+  }
+}
+
+// Event listener global para todos os botões de fechar
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'closeContentModal' || e.target.id === 'closeCallModal' || e.target.id === 'closeLoginModal') {
+    const modal = e.target.closest('.modal');
+    if (modal) {
+      closeModal(modal);
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+}, true);
+
+// Fechar modal ao clicar no fundo
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal') && e.target === e.currentTarget) {
+    closeModal(e.target);
+  }
+}, true);
+
+// Fechar modal com ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const openModals = document.querySelectorAll('.modal[aria-hidden="false"]');
+    openModals.forEach(m => closeModal(m));
+  }
+});
+// ========== FIM SISTEMA DE MODALS ==========
+
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function (event) {
     event.preventDefault();
@@ -247,34 +288,17 @@ function handleExameForms() {
 
 function setupCallButtons() {
   const callBtns = document.querySelectorAll('.call-btn');
-  const modal = document.getElementById('callModal');
-  const modalName = document.getElementById('modalHospitalName');
-  const modalPhoneLink = document.getElementById('modalPhoneLink');
-  const modalMapsLink = document.getElementById('modalMapsLink');
-  const copyPhone = document.getElementById('copyPhone');
-  const modalClose = document.querySelector('.modal-close');
-  const modalCallNow = document.getElementById('modalCallNow');
 
-  function openModal(name, phone){
+  function openCallModal(name, phone){
     modalName.textContent = name;
     modalPhoneLink.textContent = phone;
     modalPhoneLink.href = `tel:${phone}`;
     modalMapsLink.href = `https://www.google.com/maps/search/${encodeURIComponent(name + ' Porto Alegre')}`;
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.display = 'block';
- 
+    callModal.setAttribute('aria-hidden', 'false');
+    callModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
     modalCallNow.focus();
-   
-    document.addEventListener('keydown', escHandler);
   }
-
-  function closeModal(){
-    modal.setAttribute('aria-hidden', 'true');
-    modal.style.display = 'none';
-    document.removeEventListener('keydown', escHandler);
-  }
-
-  function escHandler(e){ if (e.key === 'Escape') closeModal(); }
 
   callBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -286,13 +310,9 @@ function setupCallButtons() {
         return;
       }
 
-      openModal(name, phone);
+      openCallModal(name, phone);
     });
   });
-
-  modalClose.addEventListener('click', closeModal);
-  
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
   copyPhone.addEventListener('click', () => {
     const phone = modalPhoneLink.textContent;
@@ -627,25 +647,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
   setupUserAndSettings();
   
-  // Setup do modal de conteúdo
-  const contentModal = document.getElementById('contentModal');
-  const contentModalClose = contentModal ? contentModal.querySelector('.modal-close') : null;
-  
-  if (contentModalClose) {
-    contentModalClose.addEventListener('click', () => {
-      contentModal.setAttribute('aria-hidden', 'true');
-      contentModal.style.display = 'none';
-    });
-  }
-  
-  if (contentModal) {
-    contentModal.addEventListener('click', (e) => {
-      if (e.target === contentModal) {
-        contentModal.setAttribute('aria-hidden', 'true');
-        contentModal.style.display = 'none';
-      }
-    });
-  }
+  // Setup do modal de conteúdo - já está sendo controlado acima pelos event listeners gerais
 });
 
 (function(){
@@ -755,7 +757,6 @@ function setupUserAndSettings() {
     saveUser(user, remember);
     updateUIForUser(user);
   });
-
   logoutBtn.addEventListener('click', () => {
     clearUser();
     updateUIForUser(null);
@@ -764,45 +765,18 @@ function setupUserAndSettings() {
   const savedUser = loadUser();
   updateUIForUser(savedUser);
 }
-// ...existing code...
-function openModal(modal) {
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  const first = modal.querySelector('input, button, a');
-  if (first) first.focus();
-}
-function closeModal(modal) {
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
+
+// Setup do modal de login
 document.addEventListener('DOMContentLoaded', () => {
   const loginModal = document.getElementById('loginModal');
   const openLoginBtn = document.getElementById('openLoginBtn'); 
   if (openLoginBtn && loginModal) {
-    openLoginBtn.addEventListener('click', () => openModal(loginModal));
-  }
-  if (loginModal) {
-    const modalClose = loginModal.querySelector('.modal-close');
-    modalClose && modalClose.addEventListener('click', () => closeModal(loginModal));
-    loginModal.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(loginModal); });
-    loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeModal(loginModal); });
-  }
-  const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = loginForm.email.value.trim();
-      const password = loginForm.password.value;
-      const remember = loginForm.remember.checked;
-      if (!email || !password) {
-        loginForm.querySelector('.form-msg').textContent = 'Preencha e-mail e senha.';
-        return;
-      }
-      const user = { email, remember };
-      if (remember) localStorage.setItem('swiftly_user_v1', JSON.stringify(user));
-      else sessionStorage.setItem('swiftly_user_v1', JSON.stringify(user));
-      loginForm.querySelector('.form-msg').textContent = 'Logado';
-      closeModal(document.getElementById('loginModal'));
+    openLoginBtn.addEventListener('click', () => {
+      loginModal.setAttribute('aria-hidden', 'false');
+      loginModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      const first = loginModal.querySelector('input');
+      if (first) first.focus();
     });
   }
 });
