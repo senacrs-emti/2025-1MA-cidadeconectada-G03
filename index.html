@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedFast</title>
+    <title>Swiftly Swiftly</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -12,6 +13,7 @@
 <header>
 
     <div class="banner-box"></div>
+    <button class="sidebar-toggle" aria-label="Abrir menu">☰</button>
 
 </header>
 
@@ -40,7 +42,7 @@
         <div class="mini">
           <a href="#criancas-atestado">
             <button data-tip="Pedir Atestado">
-              <img src="https://i.postimg.cc/R0Z76BvQ/Chat-GPT-Image-29-de-nov-de-2025-17-15-56.png" alt="">
+              <img src="https://i.postimg.cc/BnDB0Z1r/Chat-GPT-Image-3-de-dez-de-2025-11-06-54.png" alt="">
             </button>
           </a>
         </div>
@@ -81,7 +83,7 @@
         <div class="mini">
           <a href="#adolescentes-atestado">
             <button data-tip="Pedir Atestado">
-              <img src="https://i.postimg.cc/R0Z76BvQ/Chat-GPT-Image-29-de-nov-de-2025-17-15-56.png" alt="">
+              <img src="https://i.postimg.cc/BnDB0Z1r/Chat-GPT-Image-3-de-dez-de-2025-11-06-54.png" alt="">
             </button>
           </a>
         </div>
@@ -122,7 +124,7 @@
         <div class="mini">
           <a href="#adultos-atestado">
             <button data-tip="Pedir Atestado">
-              <img src="https://i.postimg.cc/R0Z76BvQ/Chat-GPT-Image-29-de-nov-de-2025-17-15-56.png" alt="">
+              <img src="https://i.postimg.cc/BnDB0Z1r/Chat-GPT-Image-3-de-dez-de-2025-11-06-54.png" alt="">
             </button>
           </a>
         </div>
@@ -163,7 +165,7 @@
         <div class="mini">
           <a href="#idosos-atestado">
             <button data-tip="Pedir Atestado">
-              <img src="https://i.postimg.cc/R0Z76BvQ/Chat-GPT-Image-29-de-nov-de-2025-17-15-56.png" alt="">
+              <img src="https://i.postimg.cc/BnDB0Z1r/Chat-GPT-Image-3-de-dez-de-2025-11-06-54.png" alt="">
             </button>
           </a>
         </div>
@@ -190,30 +192,656 @@
   </section>
 
   <!-- SEÇÕES CRIANÇAS -->
-<section id="criancas-vacinacao" class="secao">Vacinação para crianças.</section>
-<section id="criancas-atestado" class="secao">Atestados da criança.</section>
-<section id="criancas-exames" class="secao">Exames da criança.</section>
-<section id="criancas-conversar" class="secao">Atendimento a criança.</section>
+  <section id="criancas-vacinacao" class="secao">
+    <h2>Vacinação — Crianças</h2>
+    <table class="vacina-table">
+      <thead>
+        <tr>
+          <th class="check-col">OK</th>
+          <th>Vacina</th>
+          <th>Idade</th>
+          <th>Dose</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="BCG"></td>
+          <td data-label="Vacina">BCG</td>
+          <td data-label="Idade">Ao nascer</td>
+          <td data-label="Dose">1ª dose</td>
+          <td data-label="Observações">Proteção contra tuberculose</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Hepatite B"></td>
+          <td data-label="Vacina">Hepatite B</td>
+          <td data-label="Idade">Ao nascer / 1 mês / 6 meses</td>
+          <td data-label="Dose">3 doses</td>
+          <td data-label="Observações">Esquema básico</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Penta"></td>
+          <td data-label="Vacina">Penta (DTP+Hib+HB)</td>
+          <td data-label="Idade">2 / 4 / 6 meses</td>
+          <td data-label="Dose">3 doses</td>
+          <td data-label="Observações">Imunização combinada</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Rotavírus"></td>
+          <td data-label="Vacina">Rotavírus</td>
+          <td data-label="Idade">2 / 4 meses</td>
+          <td data-label="Dose">2 doses</td>
+          <td data-label="Observações">Prevenção diarreia grave</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="VIP Poliomielite"></td>
+          <td data-label="Vacina">VIP (Poliomielite injetável)</td>
+          <td data-label="Idade">2 / 4 / 6 meses</td>
+          <td data-label="Dose">3 doses</td>
+          <td data-label="Observações">Reforço aos 15 meses</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="criancas-atestado" class="secao">
+    <h2>Pedir Atestado — Crianças</h2>
+    <form class="atestado-form" data-group="Crianças">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Idade<br><input type="number" name="idade" min="0" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Motivo / Observação<br><textarea name="motivo" rows="3" required></textarea></label><br>
+      <label>Dias solicitados<br><input type="number" name="dias" min="1" value="1" required></label><br>
+      <label>Hospital preferido<br>
+        <select name="hospital" required>
+          <option value="">Escolha um hospital</option>
+          <option>Hospital Central</option>
+          <option>Hospital Municipal</option>
+          <option>Clínica Saúde Familiar</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar pedido</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="criancas-exames" class="secao">
+    <h2>Enviar Exames — Crianças</h2>
+    <form class="exame-form" data-group="Crianças">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Observação (opcional)<br><textarea name="observacao" rows="2"></textarea></label><br>
+      <label>Anexar exames (PDF, JPG, PNG) — máximo 5 arquivos<br>
+        <input type="file" name="exames" accept="application/pdf,image/*" multiple required>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar exames</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="criancas-conversar" class="secao">
+    <h2>Falar com hospitais — Crianças</h2>
+    <p>Escolha um hospital em Porto Alegre para entrar em contato:</p>
+    <ul class="hosp-list">
+      <li data-phone="+555133300001" data-map="Hospital Central, Porto Alegre">
+        <strong>Hospital Central</strong>
+        <small class="hosp-hours">Atendimento 24h</small>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300001" class="call-link">+55 51 3330-0001</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300001" data-name="Hospital Central">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Central+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
 
-<!-- SEÇÕES ADOLESCENTES -->
-<section id="adolescentes-vacinacao" class="secao">Vacinação para adolescentes.</section>
-<section id="adolescentes-atestado" class="secao">Atestados do adolescente.</section>
-<section id="adolescentes-exames" class="secao">Exames do adolescente.</section>
-<section id="adolescentes-conversar" class="secao">Atendimento ao adolescente.</section>
+      <li data-phone="+555133300002" data-map="Hospital Municipal, Porto Alegre">
+        <strong>Hospital Municipal</strong>
+        <small class="hosp-hours">Atendimento 08:00-20:00</small>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300002" class="call-link">+55 51 3330-0002</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300002" data-name="Hospital Municipal">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Municipal+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
 
-<!-- SEÇÕES ADULTOS -->
-<section id="adultos-vacinacao" class="secao">Vacinação para adultos.</section>
-<section id="adultos-atestado" class="secao">Atestados do adulto.</section>
-<section id="adultos-exames" class="secao">Exames do adulto.</section>
-<section id="adultos-conversar" class="secao">Atendimento ao adulto.</section>
+      <li data-phone="+555133300003" data-map="Clínica Saúde Familiar, Porto Alegre">
+        <strong>Clínica Saúde Familiar</strong>
+        <small class="hosp-hours">Atendimento 09:00-18:00</small>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300003" class="call-link">+55 51 3330-0003</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300003" data-name="Clínica Saúde Familiar">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Cl%C3%ADnica+Sa%C3%BAde+Familiar+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+    </ul>
+  <section id="criancas-atestado" class="secao">
+    <h2>Pedir Atestado — Crianças</h2>
+    <form class="atestado-form" data-group="Crianças" id="criancasAtestadoForm">
+      <div class="form-msg" aria-live="polite"></div>
 
-<!-- SEÇÕES IDOSOS -->
-<section id="idosos-vacinacao" class="secao">Vacinação para idosos.</section>
-<section id="idosos-atestado" class="secao">Atestados do idoso.</section>
-<section id="idosos-exames" class="secao">Exames do idoso.</section>
-<section id="idosos-conversar" class="secao">Atendimento ao idoso.</section>
+      <label for="cr-nome">Nome completo</label>
+      <input id="cr-nome" name="nome" type="text" required>
+
+      <label for="cr-idade">Idade</label>
+      <input id="cr-idade" name="idade" type="number" min="0" required>
+
+      <label for="cr-contato">E-mail ou telefone</label>
+      <input id="cr-contato" name="contato" type="text" required>
+
+      <label for="cr-justificativa">Motivo / Justificativa</label>
+      <textarea id="cr-justificativa" name="justificativa" rows="3"></textarea>
+
+      <button type="submit">Pedir atestado</button>
+    </form>
+  </section>
+</section>
+
+  <!-- SEÇÕES ADOLESCENTES -->
+  <section id="adolescentes-vacinacao" class="secao">
+    <h2>Vacinação — Adolescentes</h2>
+    <table class="vacina-table">
+      <thead>
+        <tr>
+          <th class="check-col">OK</th>
+          <th>Vacina</th>
+          <th>Idade</th>
+          <th>Dose</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="DTP"></td>
+          <td data-label="Vacina">DTP (Tríplice Bacteriana)</td>
+          <td data-label="Idade">11-12 anos</td>
+          <td data-label="Dose">Reforço</td>
+          <td data-label="Observações">Reforço da infância</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="HPV"></td>
+          <td data-label="Vacina">HPV</td>
+          <td data-label="Idade">9-14 anos</td>
+          <td data-label="Dose">2 doses</td>
+          <td data-label="Observações">Protege contra HPV</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Meningocócica"></td>
+          <td data-label="Vacina">Meningocócica</td>
+          <td data-label="Idade">11-12 anos</td>
+          <td data-label="Dose">1 dose</td>
+          <td data-label="Observações">Dependendo do calendário local</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Hepatite B"></td>
+          <td data-label="Vacina">Hepatite B</td>
+          <td data-label="Idade">Se não completo</td>
+          <td data-label="Dose">Completar esquema</td>
+          <td data-label="Observações">Verificar histórico</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="adolescentes-atestado" class="secao">
+    <h2>Pedir Atestado — Adolescentes</h2>
+    <form class="atestado-form" data-group="Adolescentes">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Idade<br><input type="number" name="idade" min="0" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Motivo / Observação<br><textarea name="motivo" rows="3" required></textarea></label><br>
+      <label>Dias solicitados<br><input type="number" name="dias" min="1" value="1" required></label><br>
+      <label>Hospital preferido<br>
+        <select name="hospital" required>
+          <option value="">Escolha um hospital</option>
+          <option>Hospital Central</option>
+          <option>Hospital Municipal</option>
+          <option>Clínica Saúde Familiar</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar pedido</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="adolescentes-exames" class="secao">
+    <h2>Enviar Exames — Adolescentes</h2>
+    <form class="exame-form" data-group="Adolescentes">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Observação (opcional)<br><textarea name="observacao" rows="2"></textarea></label><br>
+      <label>Anexar exames (PDF, JPG, PNG) — máximo 5 arquivos<br>
+        <input type="file" name="exames" accept="application/pdf,image/*" multiple required>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar exames</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="adolescentes-conversar" class="secao">
+    <h2>Falar com hospitais — Adolescentes</h2>
+    <p>Escolha um hospital em Porto Alegre para entrar em contato:</p>
+    <ul class="hosp-list">
+      <li data-phone="+555133300001" data-map="Hospital Central, Porto Alegre">
+        <strong>Hospital Central</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300001" class="call-link">+55 51 3330-0001</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300001" data-name="Hospital Central">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Central+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300002" data-map="Hospital Municipal, Porto Alegre">
+        <strong>Hospital Municipal</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300002" class="call-link">+55 51 3330-0002</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300002" data-name="Hospital Municipal">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Municipal+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300003" data-map="Clínica Saúde Familiar, Porto Alegre">
+        <strong>Clínica Saúde Familiar</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300003" class="call-link">+55 51 3330-0003</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300003" data-name="Clínica Saúde Familiar">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Cl%C3%ADnica+Sa%C3%úde+Familiar+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SEÇÕES ADULTOS -->
+  <section id="adultos-vacinacao" class="secao">
+    <h2>Vacinação — Adultos</h2>
+    <table class="vacina-table">
+      <thead>
+        <tr>
+          <th class="check-col">OK</th>
+          <th>Vacina</th>
+          <th>Idade / Situação</th>
+          <th>Dose</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Tríplice Viral"></td>
+          <td data-label="Vacina">Tríplice Viral (SRP)</td>
+          <td data-label="Idade / Situação">Adultos sem histórico</td>
+          <td data-label="Dose">1-2 doses</td>
+          <td data-label="Observações">Sarampo, caxumba, rubéola</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Hepatite B Adulto"></td>
+          <td data-label="Vacina">Hepatite B</td>
+          <td data-label="Idade / Situação">Não vacinados</td>
+          <td data-label="Dose">3 doses</td>
+          <td data-label="Observações">Indicado para adultos</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Influenza"></td>
+          <td data-label="Vacina">Influenza (sazonal)</td>
+          <td data-label="Idade / Situação">Anual (grupos de risco)</td>
+          <td data-label="Dose">1 dose</td>
+          <td data-label="Observações">Campanhas anuais</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="dT"></td>
+          <td data-label="Vacina">tétano/difteria (dT)</td>
+          <td data-label="Idade / Situação">Reforço a cada 10 anos</td>
+          <td data-label="Dose">Reforço</td>
+          <td data-label="Observações">Importante para ferimentos</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="adultos-atestado" class="secao">
+    <h2>Pedir Atestado — Adultos</h2>
+    <form class="atestado-form" data-group="Adultos">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Idade<br><input type="number" name="idade" min="0" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Motivo / Observação<br><textarea name="motivo" rows="3" required></textarea></label><br>
+      <label>Dias solicitados<br><input type="number" name="dias" min="1" value="1" required></label><br>
+      <label>Hospital preferido<br>
+        <select name="hospital" required>
+          <option value="">Escolha um hospital</option>
+          <option>Hospital Central</option>
+          <option>Hospital Municipal</option>
+          <option>Clínica Saúde Familiar</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar pedido</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="adultos-exames" class="secao">
+    <h2>Enviar Exames — Adultos</h2>
+    <form class="exame-form" data-group="Adultos">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Observação (opcional)<br><textarea name="observacao" rows="2"></textarea></label><br>
+      <label>Anexar exames (PDF, JPG, PNG) — máximo 5 arquivos<br>
+        <input type="file" name="exames" accept="application/pdf,image/*" multiple required>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar exames</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="adultos-conversar" class="secao">
+    <h2>Falar com hospitais — Adultos</h2>
+    <p>Escolha um hospital em Porto Alegre para entrar em contato:</p>
+    <ul class="hosp-list">
+      <li data-phone="+555133300001" data-map="Hospital Central, Porto Alegre">
+        <strong>Hospital Central</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300001" class="call-link">+55 51 3330-0001</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300001" data-name="Hospital Central">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Central+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300002" data-map="Hospital Municipal, Porto Alegre">
+        <strong>Hospital Municipal</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300002" class="call-link">+55 51 3330-0002</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300002" data-name="Hospital Municipal">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Municipal+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300003" data-map="Clínica Saúde Familiar, Porto Alegre">
+        <strong>Clínica Saúde Familiar</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300003" class="call-link">+55 51 3330-0003</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300003" data-name="Clínica Saúde Familiar">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Cl%C3%ADnica+Sa%C3%úde+Familiar+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SEÇÕES IDOSOS -->
+  <section id="idosos-vacinacao" class="secao">
+    <h2>Vacinação — Idosos</h2>
+    <table class="vacina-table">
+      <thead>
+        <tr>
+          <th class="check-col">OK</th>
+          <th>Vacina</th>
+          <th>Idade</th>
+          <th>Dose</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Influenza Idoso"></td>
+          <td data-label="Vacina">Influenza (sazonal)</td>
+          <td data-label="Idade">60+ anos</td>
+          <td data-label="Dose">1 dose anual</td>
+          <td data-label="Observações">Alta prioridade</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Pneumocócica"></td>
+          <td data-label="Vacina">Pneumocócica</td>
+          <td data-label="Idade">65+ anos (ou conforme risco)</td>
+          <td data-label="Dose">Conforme calendário</td>
+          <td data-label="Observações">Previne pneumonia grave</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="Herpes Zóster"></td>
+          <td data-label="Vacina">Herpes Zóster (cobreiro)</td>
+          <td data-label="Idade">60+ anos</td>
+          <td data-label="Dose">2 doses (vacina disponível)</td>
+          <td data-label="Observações">Reduz risco de zóster e neuralgia</td>
+        </tr>
+        <tr>
+          <td class="check-col"><input type="checkbox" class="vacina-checkbox" aria-label="dT Idoso"></td>
+          <td data-label="Vacina">tétano/difteria (dT)</td>
+          <td data-label="Idade">Reforço a cada 10 anos</td>
+          <td data-label="Dose">Reforço</td>
+          <td data-label="Observações">Importante para ferimentos</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="idosos-atestado" class="secao">
+    <h2>Pedir Atestado — Idosos</h2>
+    <form class="atestado-form" data-group="Idosos">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Idade<br><input type="number" name="idade" min="0" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Motivo / Observação<br><textarea name="motivo" rows="3" required></textarea></label><br>
+      <label>Dias solicitados<br><input type="number" name="dias" min="1" value="1" required></label><br>
+      <label>Hospital preferido<br>
+        <select name="hospital" required>
+          <option value="">Escolha um hospital</option>
+          <option>Hospital Central</option>
+          <option>Hospital Municipal</option>
+          <option>Clínica Saúde Familiar</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar pedido</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="idosos-exames" class="secao">
+    <h2>Enviar Exames — Idosos</h2>
+    <form class="exame-form" data-group="Idosos">
+      <label>Nome completo<br><input type="text" name="nome" required></label><br>
+      <label>Contato (e-mail ou telefone)<br><input type="text" name="contato" required></label><br>
+      <label>Observação (opcional)<br><textarea name="observacao" rows="2"></textarea></label><br>
+      <label>Anexar exames (PDF, JPG, PNG) — máximo 5 arquivos<br>
+        <input type="file" name="exames" accept="application/pdf,image/*" multiple required>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Enviar exames</button>
+        <button type="button" class="reset-btn">Limpar</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+  <section id="idosos-conversar" class="secao">
+    <h2>Falar com hospitais — Idosos</h2>
+    <p>Escolha um hospital em Porto Alegre para entrar em contato:</p>
+    <ul class="hosp-list">
+      <li data-phone="+555133300001" data-map="Hospital Central, Porto Alegre">
+        <strong>Hospital Central</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300001" class="call-link">+55 51 3330-0001</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300001" data-name="Hospital Central">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Central+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300002" data-map="Hospital Municipal, Porto Alegre">
+        <strong>Hospital Municipal</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300002" class="call-link">+55 51 3330-0002</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300002" data-name="Hospital Municipal">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Hospital+Municipal+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+
+      <li data-phone="+555133300003" data-map="Clínica Saúde Familiar, Porto Alegre">
+        <strong>Clínica Saúde Familiar</strong>
+        <div class="hosp-meta">Telefone: <a href="tel:+555133300003" class="call-link">+55 51 3330-0003</a></div>
+        <div class="hosp-actions">
+          <button class="call-btn" data-phone="+555133300003" data-name="Clínica Saúde Familiar">Ligar</button>
+          <a class="maps-btn" href="https://www.google.com/maps/search/Cl%C3%ADnica+Sa%C3%úde+Familiar+Porto+Alegre" target="_blank">Ver no Maps</a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <div id="callModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fechar">x</button>
+      <h3 id="modalHospitalName">Hospital</h3>
+      <p>Número: <a href="#" id="modalPhoneLink"></a> <button id="copyPhone">Copiar</button></p>
+      <p>
+        <button id="modalCallNow" class="form-actions">Ligar agora</button>
+        <a id="modalMapsLink" href="#" target="_blank">Abrir no Maps</a>
+      </p>
+    </div>
+  </div>
+
+  <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="sideBar" class="sidebar" aria-hidden="true">
+    <button class="sidebar-close" aria-label="Fechar menu">x</button>
+    <div class="sidebar-inner">
+      <div class="sidebar-profile">
+        <img src="https://i.postimg.cc/3x3Q1YkF/avatar-placeholder.png" alt="avatar" class="sidebar-avatar" id="sidebarAvatar">
+        <div class="sidebar-profile-info">
+          <strong id="sidebarUser">Convidado</strong>
+          <small id="sidebarUserEmail">Faça login para mais opções</small>
+        </div>
+      </div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none">
+      <div style="margin-bottom:12px;">
+        <button id="changeAvatarBtn" class="sidebar-action" type="button">Mudar foto</button>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#login" class="sidebar-link"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Login</a></li>
+          <li><button id="sidebarCallBtn" class="sidebar-action"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92V21a1 1 0 01-1.11 1 19 19 0 01-8.63-3.07A19 19 0 013.07 3.74 1 1 0 014 2.63H8.09a1 1 0 01.99.89c.07.88.25 1.73.52 2.53a1 1 0 01-.23 1l-1.6 1.6a16 16 0 006.06 6.06l1.6-1.6a1 1 0 011-.23c.8.27 1.65.45 2.53.52a1 1 0 01.89.99z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> Ligar</button></li>
+          <li><a href="#sobre" class="sidebar-link"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM11 11h2v6h-2v-6zm0-4h2v2h-2V7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sobre</a></li>
+          <li><a href="#meus-pedidos" class="sidebar-link"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M8 6v12a2 2 0 002 2h4a2 2 0 002-2V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> Meus pedidos</a></li>
+          <li><a href="#config" class="sidebar-link"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7zm8-3.5v1a2 2 0 01-.18.79l-1.12 1.93a2 2 0 01-1.43.92l-2.1.3a2 2 0 01-1.48.98l-.3 2.11a2 2 0 01-.92 1.43L13.29 23a2 2 0 01-.79.18h-1a2 2 0 01-.79-.18l-1.93-1.12a2 2 0 01-.92-1.43l-.3-2.1a2 2 0 01-.98-1.48l-2.11-.3a2 2 0 01-1.43-.92L1 13.29A2 2 0 01.82 12v-1c0-.28.04-.55.12-.81L2 8.26a2 2 0 01.92-1.43l1.93-1.12A2 2 0 016.28 4l.3-2.1A2 2 0 017.5.42L9.29 0h1c.28 0 .55.04.81.12L13.29 2a2 2 0 011.43.92l1.12 1.93c.35.6.98 1.04 1.66 1.2l2.1.3c.54.08 1.03.33 1.43.72l1.12 1.93c.33.57.33 1.23 0 1.8l-1.12 1.93c-.2.4-.29.85-.25 1.29" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/></svg> Configurações</a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+ <section id="login" class="secao">
+    <h2>Login de Usuário</h2>
+    <form id="loginForm" class="login-form">
+      <label>E-mail (use um e-mail válido)<br><input type="email" name="email" required placeholder="seu@exemplo.com"></label><br>
+      <div style="margin-top:8px;margin-bottom:8px;">
+        <button type="button" id="requestPasswordBtn">Solicitar senha por e-mail</button>
+      </div>
+
+      <label>Senha (recebida por e-mail)<br><input type="password" name="password" required placeholder="senha recebida"></label><br>
+
+      <label style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="checkbox" name="remember"> Manter conectado</label>
+      <div class="form-actions">
+        <button type="submit">Entrar</button>
+        <button type="button" id="logoutBtn" style="display:none;">Sair</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <section id="sobre" class="secao">
+    <div class="sobre-hero">
+      <h2>Sobre — Conheça o Swiftly</h2>
+      <p class="lead">O Swiftly é um protótipo cliente-side desenhado para agilizar o acesso a informações de vacinação, envio de exames e pedido de atestados médicos. Funciona inteiramente no seu navegador, sem envio automático de arquivos — ideal para demonstração e testes locais.</p>
+    </div>
+
+    <div class="sobre-grid">
+      <article class="sobre-card">
+        <h3>Vacinação</h3>
+        <p>Consulte tabelas por faixa etária, marque vacinas aplicadas e acompanhe recomendações. As tabelas são responsivas e pensadas para visualização rápida.</p>
+        <p><a href="#criancas-vacinacao">Ir para vacinação →</a></p>
+      </article>
+
+      <article class="sobre-card">
+        <h3>Atestados & Exames</h3>
+        <p>Peça atestados preenchendo um formulário simples; envie exames como arquivos (PDF/JPG/PNG) para armazenamento local de demonstração. Você pode exportar os registros ou limpar tudo quando desejar.</p>
+        <p><a href="#criancas-atestado">Pedir atestado →</a></p>
+      </article>
+
+      <article class="sobre-card">
+        <h3>Contato com hospitais</h3>
+        <p>Em Porto Alegre o Swiftly tenta centralizar pesquisas no Maps pela sua localização (quando autorizada). Em celular, o botão de ligar inicia a chamada; em desktop aparece um modal com número e ações rápidas.</p>
+        <p><a href="#criancas-conversar">Ver hospitais →</a></p>
+      </article>
+    </div>
+
+    <h3>Privacidade e limitações</h3>
+    <p>O Swiftly é um protótipo local: nenhum PDF ou arquivo é enviado a servidores externos. Todos os dados (pedidos de atestado, metadados de exames, configurações e avatar) ficam salvos no armazenamento local do navegador (localStorage). Para uso em produção, integre um back-end seguro com HTTPS e autenticação adequada.</p>
+
+    <h3>Dicas de uso</h3>
+    <ol>
+      <li>Use o menu (ícone ☰) para acessar Login, Meus pedidos e Configurações.</li>
+      <li>Permita a localização apenas se quiser que o Maps seja centralizado no seu ponto — caso contrário, o Swiftly usa uma busca por hospitais em Porto Alegre.</li>
+      <li>Nas Configurações você pode alternar tema e cor de destaque; as mudanças são aplicadas imediatamente e gravadas no navegador.</li>
+      <li>Exportar CSV permite arquivar seus pedidos; use Limpar para remover tudo do armazenamento local.</li>
+    </ol>
+
+    <p style="margin-top:8px; font-size:13px; color:#3a5566;">Versão: protótipo local • Última atualização: dezembro/2025</p>
+  </section>
+
+  <section id="meus-pedidos" class="secao">
+    <h2>Meus Pedidos</h2>
+    <p>Esta área mostra pedidos de atestado e envios de exames que você fez no navegador. Você pode exportar os registros como CSV para arquivar ou limpar tudo se desejar.</p>
+    <div class="form-actions" style="margin-bottom:12px;">
+      <button id="exportPedidos">Exportar CSV</button>
+      <button id="clearPedidos">Limpar todos</button>
+    </div>
+    <div id="pedidosList">Nenhum pedido encontrado.</div>
+  </section>
+
+  <section id="config" class="secao">
+    <h2>Configurações</h2>
+    <form id="settingsForm" class="settings-form">
+      <label style="display:block;margin-bottom:8px;">Tema
+        <select name="theme">
+          <option value="light">Claro</option>
+          <option value="dark">Escuro</option>
+        </select>
+      </label>
+      <label style="display:block;margin-bottom:8px;">Cor de destaque
+        <select name="accent">
+          <option value="#0b84ff">Azul</option>
+          <option value="#c0392b">Vermelho</option>
+          <option value="#2f8f3e">Verde</option>
+        </select>
+      </label>
+      <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <button type="button" id="resetSettings">Restaurar padrão</button>
+      </div>
+      <div class="form-msg" aria-live="polite"></div>
+    </form>
+  </section>
 
 </main>
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="loginTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fechar">×</button>
+      <h2 id="loginTitle">Login de Usuário</h2>
+      <form id="loginForm" class="login-form">
+        <div class="form-msg" aria-live="polite"></div>
+
+        <label for="loginEmail">E‑mail</label>
+        <input id="loginEmail" name="email" type="email" required>
+
+        <label for="loginPassword">Senha</label>
+        <input id="loginPassword" name="password" type="password" required>
+
+        <label><input id="loginRemember" type="checkbox" name="remember"> Manter conectado</label>
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+  </script>
 
 <script src="./script.js"></script>
 </body>
