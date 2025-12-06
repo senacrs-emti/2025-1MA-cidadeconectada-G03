@@ -15,6 +15,7 @@ function disableButton(state) {
 function fallbackSearch() {
     setStatus("buscando alternativa…");
     window.open("https://www.google.com/maps/search/hospital+perto+de+mim/", "_blank");
+    setTimeout(() => setStatus('', false), 2000);
 }
 
 button.addEventListener("click", function () {
@@ -137,18 +138,21 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         handleExameForms();
         setupCallButtons();
       }
-    } else if (alvo) {
-      // Para outras seções (login, sobre, etc), exibe normalmente
-      document.querySelectorAll('.secao').forEach(sec => sec.style.display = 'none');
-      alvo.style.display = 'block';
-      window.scrollTo({ top: alvo.offsetTop - 20, behavior: 'smooth' });
-      
-      if (id === 'login') {
-        const input = document.querySelector('#loginForm input[name="email"]');
-        if (input) input.focus();
-      }
+      return;
     }
   });
+});
+
+// Fechar seção ao clicar no botão X
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('secao-close')) {
+    const secao = e.target.closest('.secao');
+    if (secao) {
+      secao.style.display = 'none';
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
 });
 
 function handleAtestadoForms() {
@@ -383,7 +387,7 @@ function setupSidebar() {
 
   document.querySelectorAll('.sidebar-link').forEach(link => {
     link.addEventListener('click', (e) => {
-      
+      e.preventDefault();
       close();
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
@@ -407,6 +411,8 @@ function setupSidebar() {
 
 function setupUserAndSettings() {
   const loginForm = document.getElementById('loginForm');
+  if (!loginForm) return;
+  
   const loginMsg = loginForm.querySelector('.form-msg');
   const logoutBtn = document.getElementById('logoutBtn');
   const requestPasswordBtn = document.getElementById('requestPasswordBtn');
@@ -447,13 +453,35 @@ function setupUserAndSettings() {
   function updateUIForUser(user) {
     if (user) {
       loginMsg.textContent = 'Logado como ' + user.email;
-      logoutBtn.style.display = 'inline-block';
+      if (logoutBtn) logoutBtn.style.display = 'inline-block';
     } else {
       loginMsg.textContent = '';
-      logoutBtn.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
     }
     updateSidebarProfile(user);
     updateAvatarVisibility(user);
+  }
+
+  function saveUser(user, remember) {
+    const data = JSON.stringify(user);
+    if (remember) {
+      localStorage.setItem(chaveUser, data);
+      sessionStorage.removeItem(chaveUser);
+    } else {
+      sessionStorage.setItem(chaveUser, data);
+      localStorage.removeItem(chaveUser);
+    }
+  }
+  
+  function loadUser() {
+    const s = sessionStorage.getItem(chaveUser);
+    const l = localStorage.getItem(chaveUser);
+    return JSON.parse(s || l || 'null');
+  }
+  
+  function clearUser() {
+    localStorage.removeItem(chaveUser);
+    sessionStorage.removeItem(chaveUser);
   }
 
   if (requestPasswordBtn) {
@@ -505,17 +533,20 @@ function setupUserAndSettings() {
 
     const remember = !!(loginForm.elements['remember'] && loginForm.elements['remember'].checked);
     const user = { email, remember };
-    localStorage.setItem(chaveUser, JSON.stringify(user));
+    saveUser(user, remember);
     updateUIForUser(user);
   });
 
-  logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem(chaveUser);
-    updateUIForUser(null);
-  });
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      clearUser();
+      updateUIForUser(null);
+    });
+  }
 
   const pedidosList = document.getElementById('pedidosList');
   function renderPedidos() {
+    if (!pedidosList) return;
     const pedidos = JSON.parse(localStorage.getItem('atestado_pedidos_v1') || '[]');
     const exames = JSON.parse(localStorage.getItem('exames_envios_v1') || '[]');
     if (pedidos.length === 0 && exames.length === 0) {
@@ -597,47 +628,51 @@ function setupUserAndSettings() {
   });
 
   const settingsForm = document.getElementById('settingsForm');
-  const settingsMsg = settingsForm.querySelector('.form-msg');
-  const resetSettings = document.getElementById('resetSettings');
-  const chaveSettings = 'swiftly_settings_v1';
+  if (settingsForm) {
+    const settingsMsg = settingsForm.querySelector('.form-msg');
+    const resetSettings = document.getElementById('resetSettings');
+    const chaveSettings = 'swiftly_settings_v1';
 
-  function applySettings(obj) {
-    if (!obj) return;
-    if (obj.theme === 'dark') document.body.classList.add('theme-dark'); else document.body.classList.remove('theme-dark');
-    if (obj.accent) {
-      document.documentElement.style.setProperty('--accent-color', obj.accent);
-      
-      try { document.body.setAttribute('data-accent', obj.accent); } catch(e) { /* ignore */ }
-    } else {
-      document.documentElement.style.removeProperty('--accent-color');
-      document.body.removeAttribute('data-accent');
+    function applySettings(obj) {
+      if (!obj) return;
+      if (obj.theme === 'dark') document.body.classList.add('theme-dark'); else document.body.classList.remove('theme-dark');
+      if (obj.accent) {
+        document.documentElement.style.setProperty('--accent-color', obj.accent);
+        try { document.body.setAttribute('data-accent', obj.accent); } catch(e) { /* ignore */ }
+      } else {
+        document.documentElement.style.removeProperty('--accent-color');
+        document.body.removeAttribute('data-accent');
+      }
+    }
+
+    settingsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(settingsForm);
+      const s = { theme: fd.get('theme'), accent: fd.get('accent') };
+      localStorage.setItem(chaveSettings, JSON.stringify(s));
+      applySettings(s);
+      settingsMsg.textContent = 'Configurações salvas.';
+    });
+
+    if (resetSettings) {
+      resetSettings.addEventListener('click', () => {
+        localStorage.removeItem(chaveSettings);
+        applySettings({ theme: 'light', accent: '#0b84ff' });
+        settingsMsg.textContent = 'Restaurado.';
+      });
+    }
+
+    const savedSettings = JSON.parse(localStorage.getItem(chaveSettings) || 'null');
+    applySettings(savedSettings || { theme: 'light', accent: '#0b84ff' });
+
+    if (settingsForm && savedSettings) {
+      settingsForm.elements['theme'].value = savedSettings.theme || 'light';
+      settingsForm.elements['accent'].value = savedSettings.accent || '#0b84ff';
     }
   }
 
-  settingsForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const fd = new FormData(settingsForm);
-    const s = { theme: fd.get('theme'), accent: fd.get('accent') };
-    localStorage.setItem(chaveSettings, JSON.stringify(s));
-    applySettings(s);
-    settingsMsg.textContent = 'Configurações salvas.';
-  });
-
-  resetSettings.addEventListener('click', () => {
-    localStorage.removeItem(chaveSettings);
-    applySettings({ theme: 'light', accent: '#0b84ff' });
-    settingsMsg.textContent = 'Restaurado.';
-  });
-
-  const savedUser = JSON.parse(localStorage.getItem(chaveUser) || 'null');
+  const savedUser = loadUser();
   updateUIForUser(savedUser);
-  const savedSettings = JSON.parse(localStorage.getItem(chaveSettings) || 'null');
-  applySettings(savedSettings || { theme: 'light', accent: '#0b84ff' });
-
-  if (settingsForm && savedSettings) {
-    settingsForm.elements['theme'].value = savedSettings.theme || 'light';
-    settingsForm.elements['accent'].value = savedSettings.accent || '#0b84ff';
-  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -711,72 +746,3 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => { loadAvatar(); attach(); }); } else { loadAvatar(); attach(); }
 })();
-
-
-
-
-function setupUserAndSettings() {
-
-  const chaveUser = 'swiftly_user_v1';
-  const chavePasswords = 'swiftly_passwords_v1';
-
-  function saveUser(user, remember) {
-    const data = JSON.stringify(user);
-    if (remember) {
-      localStorage.setItem(chaveUser, data);
-      sessionStorage.removeItem(chaveUser);
-    } else {
-      sessionStorage.setItem(chaveUser, data);
-      localStorage.removeItem(chaveUser);
-    }
-  }
-  function loadUser() {
-    const s = sessionStorage.getItem(chaveUser);
-    const l = localStorage.getItem(chaveUser);
-    return JSON.parse(s || l || 'null');
-  }
-  function clearUser() {
-    localStorage.removeItem(chaveUser);
-    sessionStorage.removeItem(chaveUser);
-  }
-
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = (loginForm.elements['email'] && loginForm.elements['email'].value || '').trim();
-    const password = (loginForm.elements['password'] && loginForm.elements['password'].value) || '';
-
-    if (!email || !password) { loginMsg.textContent = 'Preencha e-mail e senha.'; return; }
-
-    const map = JSON.parse(localStorage.getItem(chavePasswords) || '{}');
-    const record = map[email];
-    if (!record || !record.pw) { loginMsg.textContent = 'Nenhuma senha gerada para este e-mail. Solicite primeiro.'; return; }
-    if (record.pw !== password) { loginMsg.textContent = 'Senha incorreta.'; return; }
-
-    const remember = !!(loginForm.elements['remember'] && loginForm.elements['remember'].checked);
-    const user = { email, remember };
-    saveUser(user, remember);
-    updateUIForUser(user);
-  });
-  logoutBtn.addEventListener('click', () => {
-    clearUser();
-    updateUIForUser(null);
-  });
-
-  const savedUser = loadUser();
-  updateUIForUser(savedUser);
-}
-
-// Setup do modal de login
-document.addEventListener('DOMContentLoaded', () => {
-  const loginModal = document.getElementById('loginModal');
-  const openLoginBtn = document.getElementById('openLoginBtn'); 
-  if (openLoginBtn && loginModal) {
-    openLoginBtn.addEventListener('click', () => {
-      loginModal.setAttribute('aria-hidden', 'false');
-      loginModal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      const first = loginModal.querySelector('input');
-      if (first) first.focus();
-    });
-  }
-});

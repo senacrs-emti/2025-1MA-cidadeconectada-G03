@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -316,27 +316,7 @@
         </div>
       </li>
     </ul>
-  <section id="criancas-atestado" class="secao">
-    <h2>Pedir Atestado — Crianças</h2>
-    <form class="atestado-form" data-group="Crianças" id="criancasAtestadoForm">
-      <div class="form-msg" aria-live="polite"></div>
-
-      <label for="cr-nome">Nome completo</label>
-      <input id="cr-nome" name="nome" type="text" required>
-
-      <label for="cr-idade">Idade</label>
-      <input id="cr-idade" name="idade" type="number" min="0" required>
-
-      <label for="cr-contato">E-mail ou telefone</label>
-      <input id="cr-contato" name="contato" type="text" required>
-
-      <label for="cr-justificativa">Motivo / Justificativa</label>
-      <textarea id="cr-justificativa" name="justificativa" rows="3"></textarea>
-
-      <button type="submit">Pedir atestado</button>
-    </form>
   </section>
-</section>
 
   <!-- SEÇÕES ADOLESCENTES -->
   <section id="adolescentes-vacinacao" class="secao">
@@ -743,7 +723,8 @@
         <button type="button" id="requestPasswordBtn">Gerar senha</button>
       </div>
 
-      <label>Senha<br><input type="password" name="password" required placeholder="digite a senha"></label><br>      <label style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="checkbox" name="remember"> Manter conectado</label>
+      <label>Senha<br><input type="password" name="password" required placeholder="digite a senha"></label><br>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="checkbox" name="remember"> Manter conectado</div>
       <div class="form-actions">
         <button type="submit">Entrar</button>
         <button type="button" id="logoutBtn" style="display:none;">Sair</button>
@@ -753,43 +734,20 @@
   </section>
 
   <section id="sobre" class="secao">
-    <div class="sobre-hero">
-      <h2>Sobre — Conheça o Swiftly</h2>
-      <p class="lead">O Swiftly é um protótipo cliente-side desenhado para agilizar o acesso a informações de vacinação, envio de exames e pedido de atestados médicos. Funciona inteiramente no seu navegador, sem envio automático de arquivos — ideal para demonstração e testes locais.</p>
+    <div style="margin-top:0;">
+      <h3>Privacidade e limitações</h3>
+      <p>O Swiftly é um protótipo local: nenhum PDF ou arquivo é enviado a servidores externos. Todos os dados (pedidos de atestado, metadados de exames, configurações e avatar) ficam salvos no armazenamento local do navegador (localStorage). Para uso em produção, integre um back-end seguro com HTTPS e autenticação adequada.</p>
+
+      <h3 style="margin-top:16px;">Dicas de uso</h3>
+      <ol style="padding-left:20px; line-height:1.6;">
+        <li>Use o menu (ícone ☰) para acessar Login, Meus pedidos e Configurações.</li>
+        <li>Permita a localização apenas se quiser que o Maps seja centralizado no seu ponto — caso contrário, o Swiftly usa uma busca por hospitais em Porto Alegre.</li>
+        <li>Nas Configurações você pode alternar tema e cor de destaque; as mudanças são aplicadas imediatamente e gravadas no navegador.</li>
+        <li>Exportar CSV permite arquivar seus pedidos; use Limpar para remover tudo do armazenamento local.</li>
+      </ol>
+
+      <p style="margin-top:16px; font-size:13px; color:#3a5566;">Versão: protótipo local • Última atualização: dezembro/2025</p>
     </div>
-
-    <div class="sobre-grid">
-      <article class="sobre-card">
-        <h3>Vacinação</h3>
-        <p>Consulte tabelas por faixa etária, marque vacinas aplicadas e acompanhe recomendações. As tabelas são responsivas e pensadas para visualização rápida.</p>
-        <p><a href="#criancas-vacinacao">Ir para vacinação →</a></p>
-      </article>
-
-      <article class="sobre-card">
-        <h3>Atestados & Exames</h3>
-        <p>Peça atestados preenchendo um formulário simples; envie exames como arquivos (PDF/JPG/PNG) para armazenamento local de demonstração. Você pode exportar os registros ou limpar tudo quando desejar.</p>
-        <p><a href="#criancas-atestado">Pedir atestado →</a></p>
-      </article>
-
-      <article class="sobre-card">
-        <h3>Contato com hospitais</h3>
-        <p>Em Porto Alegre o Swiftly tenta centralizar pesquisas no Maps pela sua localização (quando autorizada). Em celular, o botão de ligar inicia a chamada; em desktop aparece um modal com número e ações rápidas.</p>
-        <p><a href="#criancas-conversar">Ver hospitais →</a></p>
-      </article>
-    </div>
-
-    <h3>Privacidade e limitações</h3>
-    <p>O Swiftly é um protótipo local: nenhum PDF ou arquivo é enviado a servidores externos. Todos os dados (pedidos de atestado, metadados de exames, configurações e avatar) ficam salvos no armazenamento local do navegador (localStorage). Para uso em produção, integre um back-end seguro com HTTPS e autenticação adequada.</p>
-
-    <h3>Dicas de uso</h3>
-    <ol>
-      <li>Use o menu (ícone ☰) para acessar Login, Meus pedidos e Configurações.</li>
-      <li>Permita a localização apenas se quiser que o Maps seja centralizado no seu ponto — caso contrário, o Swiftly usa uma busca por hospitais em Porto Alegre.</li>
-      <li>Nas Configurações você pode alternar tema e cor de destaque; as mudanças são aplicadas imediatamente e gravadas no navegador.</li>
-      <li>Exportar CSV permite arquivar seus pedidos; use Limpar para remover tudo do armazenamento local.</li>
-    </ol>
-
-    <p style="margin-top:8px; font-size:13px; color:#3a5566;">Versão: protótipo local • Última atualização: dezembro/2025</p>
   </section>
 
   <section id="meus-pedidos" class="secao">
@@ -827,27 +785,10 @@
   </section>
 
 <main>
-  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="loginTitle">
-    <div class="modal-content">
-      <button id="closeLoginModal" class="modal-close" aria-label="Fechar">×</button>
-      <h2 id="loginTitle">Login de Usuário</h2>
-      <form id="loginForm" class="login-form">
-        <div class="form-msg" aria-live="polite"></div>
-
-        <label for="loginEmail">E‑mail</label>
-        <input id="loginEmail" name="email" type="email" required>
-
-        <label for="loginPassword">Senha</label>
-        <input id="loginPassword" name="password" type="password" required>
-
-        <label><input id="loginRemember" type="checkbox" name="remember"> Manter conectado</label>
-
-        <button type="submit">Entrar</button>
-      </form>
-    </div>
-  </div>
-  </script>
-
-<script src="./script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
+
+
+
+

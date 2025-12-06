@@ -415,6 +415,29 @@ font-weight: bold;
   width: calc(100% - 60px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   user-select: none;
+  position: relative;
+}
+
+.secao-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease;
+}
+
+.secao-close:hover {
+  color: var(--accent-color);
 }
 
 .vacina-table {
@@ -795,6 +818,95 @@ button, .button, .form-actions button { transition: transform 150ms ease, box-sh
 button:active, .button:active, .form-actions button:active { transform: translateY(1px); }
 
 .pedido-item { background: linear-gradient(180deg, #fff, #fbfdff); border-radius: 8px; margin-bottom: 10px; }
+
+/* Sobre Section Styling */
+#sobre {
+  max-width: 1250px !important;
+  width: calc(100% - 60px) !important;
+  padding: 8px !important;
+  margin: 20px auto !important;
+  max-height: 35vh;
+  overflow-y: auto;
+}
+
+#sobre .sobre-hero {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(11, 132, 255, 0.15);
+}
+
+#sobre .lead {
+  font-size: 11px;
+  line-height: 1.3;
+  color: #3a5566;
+}
+
+#sobre .sobre-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#sobre .sobre-card {
+  padding: 8px;
+  background: var(--card);
+  border-left: 3px solid var(--accent-color);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+#sobre .sobre-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+#sobre .sobre-card p {
+  font-size: 10px;
+  line-height: 1.2;
+  color: #3a5566;
+  margin-bottom: 4px;
+}
+
+#sobre .sobre-card a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 150ms ease;
+  font-size: 10px;
+}
+
+#sobre .sobre-card a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+#sobre h3 {
+  font-size: 11px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+#sobre ol {
+  margin-bottom: 6px;
+  padding-left: 16px;
+  line-height: 1.3;
+}
+
+#sobre ol li {
+  margin-bottom: 3px;
+  color: #3a5566;
+  font-size: 10px;
+}
+
+#sobre > div[style*="margin-top:24px"] {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 2px solid rgba(11, 132, 255, 0.15);
+}
 
 @media (max-width: 900px) {
   .sidebar { width: 92vw; }
