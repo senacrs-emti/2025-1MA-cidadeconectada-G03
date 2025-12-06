@@ -723,6 +723,7 @@ body.theme-dark{
   max-width: 1250px;
   width: calc(100% - 60px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  user-select: none;
 }
 
 .modal {
@@ -733,7 +734,9 @@ body.theme-dark{
   z-index: 90;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
+
 .modal[aria-hidden="false"] { display: flex; }
 .modal-content {
   background: var(--card);
